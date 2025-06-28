@@ -1,0 +1,72 @@
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-[600px]">
+    <div class="flex gap-12 border-b pb-4 mb-4">
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <button class="text-lg font-bold text-gray-400" (click)="prevMonth()">&lt;</button>
+          <div class="text-center font-medium text-gray-700">
+            {{ getMonthName(displayMonthLeft) }} {{ displayYearLeft }}
+          </div>
+          <button class="text-lg font-bold text-gray-400" disabled>&gt;</button>
+        </div>
+        <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 mb-1">
+          <div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div><div>Su</div>
+        </div>
+        <div class="grid grid-cols-7 gap-1 text-center text-sm">
+          <ng-container *ngFor="let day of leftMonthDays">
+            <button
+              class="w-7 h-7 rounded-full"
+              [ngClass]="{
+                'bg-pink-600 text-white': isSelected(day, 'left'),
+                'bg-gray-200': isInRange(day, 'left'),
+                'text-pink-600': isToday(day, 'left'),
+                'text-gray-700': !isToday(day, 'left')
+              }"
+              (click)="selectDate(day, 'left')"
+              [disabled]="!day"
+            >
+              {{ day || '' }}
+            </button>
+          </ng-container>
+        </div>
+      </div>
+      <div class="w-px bg-gray-200 mx-2 self-stretch"></div>
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <button class="text-lg font-bold text-gray-400" disabled>&lt;</button>
+          <div class="text-center font-medium text-gray-700">
+            {{ getMonthName(displayMonthRight) }} {{ displayYearRight }}
+          </div>
+          <button class="text-lg font-bold text-gray-400" (click)="nextMonth()">&gt;</button>
+        </div>
+        <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 mb-1">
+          <div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div><div>Su</div>
+        </div>
+        <div class="grid grid-cols-7 gap-1 text-center text-sm">
+          <ng-container *ngFor="let day of rightMonthDays">
+            <button
+              class="w-7 h-7 rounded-full"
+              [ngClass]="{
+                'bg-pink-600 text-white': isSelected(day, 'right'),
+                'bg-gray-200': isInRange(day, 'right'),
+                'text-pink-600': isToday(day, 'right'),
+                'text-gray-700': !isToday(day, 'right')
+              }"
+              (click)="selectDate(day, 'right')"
+              [disabled]="!day"
+            >
+              {{ day || '' }}
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 mt-4 flex-wrap">
+      <input class="border rounded px-2 py-1 text-sm w-32" placeholder="Start date" [value]="startDateString" readonly />
+      <span class="text-gray-400">–</span>
+      <input class="border rounded px-2 py-1 text-sm w-32" placeholder="End date" [value]="endDateString" readonly />
+      <button class="ml-auto px-3 py-1 rounded border text-gray-600 min-w-[70px]" (click)="onCancel()">Cancel</button>
+      <button class="px-3 py-1 rounded bg-pink-600 text-white min-w-[70px]" (click)="onApply()">Apply</button>
+    </div>
+  </div>
+</div> 
