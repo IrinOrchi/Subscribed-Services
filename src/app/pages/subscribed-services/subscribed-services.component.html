@@ -1,1 +1,150 @@
-<p>subscribed-services works!</p>
+<!-- Container to align with job dashboard -->
+<div class="2xl:max-w-[82rem] mx-auto 2xl:px-4 xl:px-[66px] ml-4">
+  <!-- Page Title and Subtitle -->
+  <div class="p-6">
+    <h1 class="text-2xl font-semibold mb-1">Subscription Services</h1>
+    <p class="text-gray-500 mb-6">Set up your bdjobs recruiter presence and hiring needs.</p>
+
+    <!-- Tabs -->
+    <div class="flex space-x-2 mb-4">
+      <button class="px-4 py-2 rounded-t bg-white border-b-2 border-blue-600 font-medium text-blue-600">All</button>
+      <button class="px-4 py-2 rounded-t bg-blue-50 border-b-2 border-blue-600 font-medium text-blue-600 flex items-center gap-2">
+        CM Package Access <span class="bg-blue-600 text-white text-xs rounded-full px-2 py-0.5">20</span>
+      </button>
+      <button class="px-4 py-2 rounded-t bg-blue-50 border-b-2 border-transparent font-medium text-gray-600 flex items-center gap-2">
+        SMS Package Access <span class="bg-gray-200 text-gray-600 text-xs rounded-full px-2 py-0.5">12</span>
+      </button>
+      <button class="px-4 py-2 rounded-t bg-blue-50 border-b-2 border-transparent font-medium text-gray-600 flex items-center gap-2">
+        CV Bank Access <span class="bg-gray-200 text-gray-600 text-xs rounded-full px-2 py-0.5">06</span>
+      </button>
+    </div>
+
+    <!-- Filters and Print -->
+    <div class="flex items-center justify-between mb-4">
+      <div></div>
+      <div class="flex items-center gap-2">
+        <button class="flex items-center gap-1 text-gray-600 hover:text-blue-600 text-sm">
+          <span class="icon icon-print"></span>
+          Print
+        </button>
+        <button
+          class="border rounded px-3 py-1 text-sm flex items-center gap-2"
+          (click)="openDatePicker()"
+        >
+          Start date – End date
+        </button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto bg-white rounded shadow">
+      <table class="min-w-full text-sm">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="px-4 py-2 text-left font-medium text-black">SL</th>
+            <th class="px-4 py-2 text-left font-medium text-black">Service Name</th>
+            <th class="px-4 py-2 text-left font-medium text-black">Usage</th>
+            <th class="px-4 py-2 text-left font-medium text-black">Expire Date</th>
+            <th class="px-4 py-2 text-left font-medium text-black">Subscription Duration</th>
+            <th class="px-4 py-2 text-left font-medium text-black">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Example Row: Active -->
+          <tr class="border-b">
+            <td class="px-4 py-2">01</td>
+            <td class="px-4 py-2 flex items-center gap-2">
+              CM-Standard Listing (05 to 10 jobs)
+              <span class="ml-2 bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded">Active</span>
+            </td>
+            <td class="px-4 py-2">
+              <div>20/30 Job Ads</div>
+              <div class="text-xs text-gray-400">2300/3000 CVs</div>
+            </td>
+            <td class="px-4 py-2">6 Months</td>
+            <td class="px-4 py-2">11 Dec 2025</td>
+            <td class="px-4 py-2">
+              <a href="#" class="text-blue-600 hover:underline">Details</a>
+            </td>
+          </tr>
+          <!-- Example Row: Expired (repeat as needed) -->
+          <tr class="border-b">
+            <td class="px-4 py-2">02</td>
+            <td class="px-4 py-2 flex items-center gap-2">
+              CM-Standard Listing (05 to 10 jobs)
+              <span class="ml-2 bg-gray-200 text-gray-500 text-xs font-semibold px-2 py-0.5 rounded">Expired</span>
+            </td>
+            <td class="px-4 py-2">
+              <div>20/30 Job Ads</div>
+              <div class="text-xs text-gray-400">2300/3000 CVs</div>
+            </td>
+            <td class="px-4 py-2">6 Months</td>
+            <td class="px-4 py-2">11 Dec 2025</td>
+            <td class="px-4 py-2">
+              <a href="#" class="text-blue-600 hover:underline">Details</a>
+            </td>
+          </tr>
+          <!-- Repeat more rows as per the screenshot -->
+          <tr class="border-b">
+            <td class="px-4 py-2">03</td>
+            <td class="px-4 py-2 flex items-center gap-2">
+              CM-Standard Listing (05 to 10 jobs)
+              <span class="ml-2 bg-gray-200 text-gray-500 text-xs font-semibold px-2 py-0.5 rounded">Expired</span>
+            </td>
+            <td class="px-4 py-2">
+              <div>20/30 Job Ads</div>
+              <div class="text-xs text-gray-400">2300/3000 CVs</div>
+            </td>
+            <td class="px-4 py-2">6 Months</td>
+            <td class="px-4 py-2">11 Dec 2025</td>
+            <td class="px-4 py-2">
+              <a href="#" class="text-blue-600 hover:underline">Details</a>
+            </td>
+          </tr>
+          <!-- ...repeat for 10 rows as in the screenshot... -->
+          <tr class="border-b">
+            <td class="px-4 py-2">10</td>
+            <td class="px-4 py-2 flex items-center gap-2">
+              CM-Standard Listing (05 to 10 jobs)
+              <span class="ml-2 bg-gray-200 text-gray-500 text-xs font-semibold px-2 py-0.5 rounded">Expired</span>
+            </td>
+            <td class="px-4 py-2">
+              <div>20/30 Job Ads</div>
+              <div class="text-xs text-gray-400">2300/3000 CVs</div>
+            </td>
+            <td class="px-4 py-2">6 Months</td>
+            <td class="px-4 py-2">11 Dec 2025</td>
+            <td class="px-4 py-2">
+              <a href="#" class="text-blue-600 hover:underline">Details</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex items-center justify-between mt-4">
+      <div class="text-sm text-gray-500">Page 1 of 10</div>
+      <div class="flex items-center gap-1">
+        <button class="px-2 py-1 rounded border text-gray-500 bg-white" disabled>Previous</button>
+        <button class="px-2 py-1 rounded border bg-blue-600 text-white">1</button>
+        <button class="px-2 py-1 rounded border bg-white text-gray-700">2</button>
+        <button class="px-2 py-1 rounded border bg-white text-gray-700">3</button>
+        <span class="px-2">...</span>
+        <button class="px-2 py-1 rounded border bg-white text-gray-700">8</button>
+        <button class="px-2 py-1 rounded border bg-white text-gray-700">9</button>
+        <button class="px-2 py-1 rounded border bg-white text-gray-700">10</button>
+        <button class="px-2 py-1 rounded border text-gray-500 bg-white">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Date Range Picker Modal -->
+<app-date-range-picker-modal
+  *ngIf="showDatePicker"
+  [initialStartDate]="startDate"
+  [initialEndDate]="endDate"
+  (apply)="onDateRangeApply($event)"
+  (cancel)="closeDatePicker()"
+></app-date-range-picker-modal>
