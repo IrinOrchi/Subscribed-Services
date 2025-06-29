@@ -312,4 +312,8 @@ export class SubscribedServicesComponent implements OnInit {
     
     this.loadServiceHistoryWithVType(v_type);
   }
+
+  printTable() {
+    window.print();
+  }
 }

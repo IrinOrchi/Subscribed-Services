@@ -76,7 +76,7 @@
       <div class="flex items-center justify-between mb-4">
         <div></div>
         <div class="flex items-center gap-2">
-          <button class="flex items-center gap-1 text-gray-600 hover:text-blue-600 text-sm">
+          <button class="flex items-center gap-1 text-gray-600 hover:text-[#0E73A9] text-sm" (click)="printTable()">
             <span class="icon icon-print"></span>
             Print
           </button>
@@ -84,7 +84,10 @@
             class="border rounded px-3 py-1 text-sm flex items-center gap-2"
             (click)="openDatePicker()"
           >
-            {{ startDate && endDate ? (startDate | date:'shortDate') + ' – ' + (endDate | date:'shortDate') : 'Start date – End date' }}
+            <span class="icon icon-calendar"></span>
+            <span style="color: #667085;">
+              {{ startDate && endDate ? (startDate | date:'shortDate') + ' – ' + (endDate | date:'shortDate') : 'Start date – End date' }}
+            </span>
           </button>
           <button
             *ngIf="startDate && endDate"
