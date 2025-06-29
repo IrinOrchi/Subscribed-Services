@@ -55,7 +55,6 @@ export class SubscribedServicesComponent implements OnInit {
     this.activeTab = tab;
     this.currentPage = 1; 
     
-    // Get v_type based on selected tab
     let v_type: number | undefined;
     switch (tab) {
       case 'job':
@@ -105,7 +104,6 @@ export class SubscribedServicesComponent implements OnInit {
     }
   }
 
-  // Pagination methods
   getPaginatedData(): ServiceHistoryItem[] {
     const data = this.getTabData();
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -124,14 +122,12 @@ export class SubscribedServicesComponent implements OnInit {
     }
   }
 
-  // Generate page numbers for pagination
   getPageNumbers(): (number | string)[] {
     const totalPages = this.getTotalPages();
     const currentPage = this.currentPage;
     const pages: (number | string)[] = [];
 
     if (totalPages <= 7) {
-      // Show all pages if total is 7 or less
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
@@ -215,7 +211,6 @@ export class SubscribedServicesComponent implements OnInit {
     });
   }
 
-  // Date picker methods
   openDatePicker() {
     this.showDatePicker = true;
   }
@@ -248,7 +243,6 @@ export class SubscribedServicesComponent implements OnInit {
         break;
     }
     
-    // Reload data with date filters and v_type
     this.loadServiceHistoryWithVType(v_type);
   }
 
