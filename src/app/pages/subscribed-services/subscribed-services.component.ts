@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { DateRangePickerModalComponent } from '../../components/date-range-picker-modal/date-range-picker-modal.component';
 import { SubscribedServiceService } from '../../Services/SubscribedServices/subscribed-service.service';
-import { ServiceHistoryData, ServiceItem } from '../../Models/SubscribedService/subscribed';
+import { ServiceHistoryData, ServiceHistoryItem } from '../../Models/SubscribedService/subscribed';
 
 @Component({
   selector: 'app-subscribed-services',
-  imports: [CommonModule, HttpClientModule, DateRangePickerModalComponent],
+  imports: [CommonModule, DateRangePickerModalComponent],
   standalone: true,
   templateUrl: './subscribed-services.component.html',
   styleUrl: './subscribed-services.component.scss'
@@ -17,15 +16,10 @@ export class SubscribedServicesComponent implements OnInit {
   startDate: Date | null = null;
   endDate: Date | null = null;
   
-  // Data properties
   serviceData: ServiceHistoryData | null = null;
   loading = true;
   error: string | null = null;
-  
-  // Tab management
   activeTab: 'all' | 'cm' | 'job' | 'sms' | 'cv' = 'all';
-  
-  // Pagination
   currentPage = 1;
   itemsPerPage = 10;
 
@@ -59,19 +53,39 @@ export class SubscribedServicesComponent implements OnInit {
   // Tab methods
   setActiveTab(tab: 'all' | 'cm' | 'job' | 'sms' | 'cv') {
     this.activeTab = tab;
-    this.currentPage = 1; // Reset to first page when changing tabs
-  }
-
-  // Get data based on active tab - updated mapping
-  getTabData(): ServiceItem[] {
-    if (!this.serviceData) return [];
+    this.currentPage = 1; 
     
-    // Since the API returns counts instead of arrays, we return empty array
-    // The actual counts are displayed in the tab badges and summary cards
-    return [];
+    // Get v_type based on selected tab
+    let v_type: number | undefined;
+    switch (tab) {
+      case 'job':
+        v_type = 3; 
+        break;
+      case 'cm':
+        v_type = 1; 
+        break;
+      case 'cv':
+        v_type = 2; 
+        break;
+      case 'sms':
+        v_type = 4;
+        break;
+      case 'all':
+      default:
+        v_type = undefined;
+        break;
+    }
+    
+    
+    this.loadServiceHistoryWithVType(v_type);
   }
 
-  // Get count for tab badges - updated mapping
+  getTabData(): ServiceHistoryItem[] {
+    if (!this.serviceData || !this.serviceData.serviceHistoryLists) return [];
+    
+    return this.serviceData.serviceHistoryLists;
+  }
+
   getTabCount(tab: 'all' | 'cm' | 'job' | 'sms' | 'cv'): number {
     if (!this.serviceData) return 0;
     
@@ -92,7 +106,7 @@ export class SubscribedServicesComponent implements OnInit {
   }
 
   // Pagination methods
-  getPaginatedData(): ServiceItem[] {
+  getPaginatedData(): ServiceHistoryItem[] {
     const data = this.getTabData();
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
@@ -122,14 +136,13 @@ export class SubscribedServicesComponent implements OnInit {
         pages.push(i);
       }
     } else {
-      // Show first page
+    
       pages.push(1);
 
       if (currentPage > 4) {
         pages.push('...');
       }
 
-      // Show pages around current page
       const start = Math.max(2, currentPage - 1);
       const end = Math.min(totalPages - 1, currentPage + 1);
 
@@ -141,7 +154,6 @@ export class SubscribedServicesComponent implements OnInit {
         pages.push('...');
       }
 
-      // Show last page
       if (totalPages > 1) {
         pages.push(totalPages);
       }
@@ -150,11 +162,57 @@ export class SubscribedServicesComponent implements OnInit {
     return pages;
   }
 
-  // Helper method to safely navigate to page
   navigateToPage(page: number | string) {
     if (typeof page === 'number') {
       this.goToPage(page);
     }
+  }
+
+  getUsageDisplay(item: ServiceHistoryItem): string {
+    if (item.totalJob > 0) {
+      return `${item.totalJob - item.restJob}/${item.totalJob} Jobs`;
+    } else if (item.totalCV > 0) {
+      return `${item.totalCV - item.restCV}/${item.totalCV} CVs`;
+    } else if (item.totalPurchased > 0) {
+      return `${item.totalPurchased - item.restSMS}/${item.totalPurchased} SMS`;
+    }
+    return 'N/A';
+  }
+
+  getStatus(item: ServiceHistoryItem): 'Active' | 'Expired' {
+    return item.duration > 0 ? 'Active' : 'Expired';
+  }
+
+  getSubscriptionDuration(item: ServiceHistoryItem): string {
+    return item.duration > 0 ? `${item.duration} days` : 'N/A';
+  }
+
+  getExpireDate(item: ServiceHistoryItem): string {
+    return item.duration > 0 ? 'Calculated Date' : 'N/A';
+  }
+
+  loadServiceHistoryWithVType(v_type?: number) {
+    this.loading = true;
+    this.error = null;
+    
+    const startDateStr = this.startDate ? this.startDate.toISOString().split('T')[0] : '';
+    const endDateStr = this.endDate ? this.endDate.toISOString().split('T')[0] : '';
+    
+    this.subscribedService.getServiceHistory(startDateStr, endDateStr, v_type).subscribe({
+      next: (response) => {
+        if (response && response.data) {
+          this.serviceData = response.data;
+        } else {
+          this.error = 'Invalid response format from server';
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        this.error = error.message || 'Failed to load service history';
+        this.loading = false;
+        console.error('Error loading service history:', error);
+      }
+    });
   }
 
   // Date picker methods
@@ -171,19 +229,53 @@ export class SubscribedServicesComponent implements OnInit {
     this.endDate = event.end;
     this.showDatePicker = false;
     
-    // Format dates for API call
-    const startDateStr = this.startDate ? this.startDate.toISOString().split('T')[0] : '';
-    const endDateStr = this.endDate ? this.endDate.toISOString().split('T')[0] : '';
+    let v_type: number | undefined;
+    switch (this.activeTab) {
+      case 'job':
+        v_type = 3;
+        break;
+      case 'cm':
+        v_type = 1;
+        break;
+      case 'cv':
+        v_type = 2;
+        break;
+      case 'sms':
+        v_type = 4;
+        break;
+      default:
+        v_type = undefined;
+        break;
+    }
     
-    // Reload data with date filters
-    this.loadServiceHistoryWithFilters(startDateStr, endDateStr);
+    // Reload data with date filters and v_type
+    this.loadServiceHistoryWithVType(v_type);
   }
 
   loadServiceHistoryWithFilters(startDate?: string, endDate?: string) {
     this.loading = true;
     this.error = null;
     
-    this.subscribedService.getServiceHistory(startDate, endDate).subscribe({
+    let v_type: number | undefined;
+    switch (this.activeTab) {
+      case 'job':
+        v_type = 3;
+        break;
+      case 'cm':
+        v_type = 1;
+        break;
+      case 'cv':
+        v_type = 2;
+        break;
+      case 'sms':
+        v_type = 4;
+        break;
+      default:
+        v_type = undefined;
+        break;
+    }
+    
+    this.subscribedService.getServiceHistory(startDate, endDate, v_type).subscribe({
       next: (response) => {
         if (response && response.data) {
           this.serviceData = response.data;
@@ -191,7 +283,7 @@ export class SubscribedServicesComponent implements OnInit {
           this.error = 'Invalid response format from server';
         }
         this.loading = false;
-        this.currentPage = 1; // Reset to first page when filtering
+        this.currentPage = 1;
       },
       error: (error) => {
         this.error = error.message || 'Failed to load service history';
@@ -204,6 +296,26 @@ export class SubscribedServicesComponent implements OnInit {
   clearDateFilters() {
     this.startDate = null;
     this.endDate = null;
-    this.loadServiceHistory(); // Reload without date filters
+    
+    let v_type: number | undefined;
+    switch (this.activeTab) {
+      case 'job':
+        v_type = 3;
+        break;
+      case 'cm':
+        v_type = 1;
+        break;
+      case 'cv':
+        v_type = 2;
+        break;
+      case 'sms':
+        v_type = 4;
+        break;
+      default:
+        v_type = undefined;
+        break;
+    }
+    
+    this.loadServiceHistoryWithVType(v_type);
   }
 }

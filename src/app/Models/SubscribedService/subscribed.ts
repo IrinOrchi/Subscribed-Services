@@ -16,6 +16,19 @@ export interface ServiceHistoryData {
   restJobs: number;
   allCVs: number;
   restCVs: number;
+  serviceHistoryLists: ServiceHistoryItem[];
+}
+
+export interface ServiceHistoryItem {
+  id: number;
+  serviceName: string;
+  totalJob: number;
+  restJob: number;
+  duration: number;
+  totalCV: number;
+  restCV: number;
+  totalPurchased: number;
+  restSMS: number;
 }
 
 export interface ServiceItem {

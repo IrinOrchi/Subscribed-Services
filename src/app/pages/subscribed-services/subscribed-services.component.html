@@ -23,35 +23,36 @@
       <div class="flex space-x-2 mb-4">
         <button 
           (click)="setActiveTab('all')"
-          [class]="activeTab === 'all' ? 'px-4 py-2 rounded-t bg-white border-b-2 border-blue-600 font-medium text-blue-600' : 'px-4 py-2 rounded-t bg-blue-50 border-b-2 border-transparent font-medium text-gray-600'"
+          [class]="activeTab === 'all' ? 'px-4 py-2 rounded-t bg-white border-b-2 border-blue-600 font-medium text-blue-600 cursor-pointer' : 'px-4 py-2 rounded-t bg-blue-50 border-b-2 border-transparent font-medium text-gray-600 cursor-pointer hover:bg-blue-100'"
           class="flex items-center gap-2"
         >
           All <span class="bg-blue-600 text-white text-xs rounded-full px-2 py-0.5">{{ getTabCount('all') }}</span>
         </button>
-        <button 
-          (click)="setActiveTab('cm')"
-          [class]="activeTab === 'cm' ? 'px-4 py-2 rounded-t bg-white border-b-2 border-blue-600 font-medium text-blue-600' : 'px-4 py-2 rounded-t bg-blue-50 border-b-2 border-transparent font-medium text-gray-600'"
-          class="flex items-center gap-2"
-        >
-          CM Package Access <span class="bg-gray-200 text-gray-600 text-xs rounded-full px-2 py-0.5">{{ getTabCount('cm') }}</span>
-        </button>
-        <button 
+         <button 
           (click)="setActiveTab('job')"
-          [class]="activeTab === 'job' ? 'px-4 py-2 rounded-t bg-white border-b-2 border-blue-600 font-medium text-blue-600' : 'px-4 py-2 rounded-t bg-blue-50 border-b-2 border-transparent font-medium text-gray-600'"
+          [class]="activeTab === 'job' ? 'px-4 py-2 rounded-t bg-white border-b-2 border-blue-600 font-medium text-blue-600 cursor-pointer' : 'px-4 py-2 rounded-t bg-blue-50 border-b-2 border-transparent font-medium text-gray-600 cursor-pointer hover:bg-blue-100'"
           class="flex items-center gap-2"
         >
           Job Posting Access <span class="bg-gray-200 text-gray-600 text-xs rounded-full px-2 py-0.5">{{ getTabCount('job') }}</span>
         </button>
         <button 
-          (click)="setActiveTab('sms')"
-          [class]="activeTab === 'sms' ? 'px-4 py-2 rounded-t bg-white border-b-2 border-blue-600 font-medium text-blue-600' : 'px-4 py-2 rounded-t bg-blue-50 border-b-2 border-transparent font-medium text-gray-600'"
+          (click)="setActiveTab('cm')"
+          [class]="activeTab === 'cm' ? 'px-4 py-2 rounded-t bg-white border-b-2 border-blue-600 font-medium text-blue-600 cursor-pointer' : 'px-4 py-2 rounded-t bg-blue-50 border-b-2 border-transparent font-medium text-gray-600 cursor-pointer hover:bg-blue-100'"
           class="flex items-center gap-2"
         >
-          SMS Package Access <span class="bg-gray-200 text-gray-600 text-xs rounded-full px-2 py-0.5">{{ getTabCount('sms') }}</span>
+          CM Package Access <span class="bg-gray-200 text-gray-600 text-xs rounded-full px-2 py-0.5">{{ getTabCount('cm') }}</span>
+        </button>
+       
+        <button 
+          [class]="'px-4 py-2 rounded-t bg-gray-100 border-b-2 border-transparent font-medium text-gray-600'"
+          class="flex items-center gap-2"
+          disabled
+        >
+          SMS Package Access <span class="bg-gray-300 text-gray-500 text-xs rounded-full px-2 py-0.5">{{ getTabCount('sms') }}</span>
         </button>
         <button 
           (click)="setActiveTab('cv')"
-          [class]="activeTab === 'cv' ? 'px-4 py-2 rounded-t bg-white border-b-2 border-blue-600 font-medium text-blue-600' : 'px-4 py-2 rounded-t bg-blue-50 border-b-2 border-transparent font-medium text-gray-600'"
+          [class]="activeTab === 'cv' ? 'px-4 py-2 rounded-t bg-white border-b-2 border-blue-600 font-medium text-blue-600 cursor-pointer' : 'px-4 py-2 rounded-t bg-blue-50 border-b-2 border-transparent font-medium text-gray-600 cursor-pointer hover:bg-blue-100'"
           class="flex items-center gap-2"
         >
           CV Bank Access <span class="bg-gray-200 text-gray-600 text-xs rounded-full px-2 py-0.5">{{ getTabCount('cv') }}</span>
@@ -100,24 +101,28 @@
             <tr *ngFor="let item of getPaginatedData(); let i = index" class="border-b">
               <td class="px-4 py-2">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
               <td class="px-4 py-2 flex items-center gap-2">
+                <span class="icon icon-service-list"></span>
                 {{ item.serviceName }}
                 <span 
-                  [class]="item.status === 'Active' ? 'ml-2 bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded' : 'ml-2 bg-gray-200 text-gray-500 text-xs font-semibold px-2 py-0.5 rounded'"
+                  [class]="getStatus(item) === 'Active' ? 'ml-2 bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded' : 'ml-2 bg-gray-200 text-gray-500 text-xs font-semibold px-2 py-0.5 rounded'"
                 >
-                  {{ item.status }}
+                  {{ getStatus(item) }}
                 </span>
               </td>
               <td class="px-4 py-2">
-                <div>{{ item.usage }}</div>
-                <div *ngIf="item.jobAdsUsed && item.jobAdsTotal" class="text-xs text-gray-400">
-                  {{ item.jobAdsUsed }}/{{ item.jobAdsTotal }} Job Ads
+                <div>{{ getUsageDisplay(item) }}</div>
+                <div *ngIf="item.totalJob > 0" class="text-xs text-gray-400">
+                  {{ item.totalJob - item.restJob }}/{{ item.totalJob }} Job Ads
                 </div>
-                <div *ngIf="item.cvsUsed && item.cvsTotal" class="text-xs text-gray-400">
-                  {{ item.cvsUsed }}/{{ item.cvsTotal }} CVs
+                <div *ngIf="item.totalCV > 0" class="text-xs text-gray-400">
+                  {{ item.totalCV - item.restCV }}/{{ item.totalCV }} CVs
+                </div>
+                <div *ngIf="item.totalPurchased > 0" class="text-xs text-gray-400">
+                  {{ item.totalPurchased - item.restSMS }}/{{ item.totalPurchased }} SMS
                 </div>
               </td>
-              <td class="px-4 py-2">{{ item.subscriptionDuration }}</td>
-              <td class="px-4 py-2">{{ item.expireDate }}</td>
+              <td class="px-4 py-2">{{ getExpireDate(item) }}</td>
+              <td class="px-4 py-2">{{ getSubscriptionDuration(item) }}</td>
               <td class="px-4 py-2">
                 <a href="#" class="text-blue-600 hover:underline">Details</a>
               </td>
