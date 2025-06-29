@@ -112,7 +112,9 @@
           <tbody>
             <!-- Dynamic Rows -->
             <tr *ngFor="let item of getPaginatedData(); let i = index" class="border-b">
-              <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+              <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
+                {{ ((currentPage - 1) * itemsPerPage + i + 1) < 10 ? '0' + ((currentPage - 1) * itemsPerPage + i + 1) : ((currentPage - 1) * itemsPerPage + i + 1) }}
+              </td>
               <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);" class="flex items-center gap-2">
                 <span class="icon icon-service-list"></span>
                 {{ item.serviceName }}
@@ -130,7 +132,9 @@
                 </ng-container>
               </td>
               <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">{{ getExpireDate(item) }}</td>
-              <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">{{ getSubscriptionDuration(item) }}</td>
+              <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
+                {{ item.duration === 1 ? '1 Month' : (item.duration > 1 ? item.duration + ' Months' : 'N/A') }}
+              </td>
               <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
                 <a href="#" class="text-blue-600 hover:underline">Details</a>
               </td>
