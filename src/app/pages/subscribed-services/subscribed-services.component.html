@@ -136,13 +136,14 @@
                 {{ item.duration === 1 ? '1 Month' : (item.duration > 1 ? item.duration + ' Months' : 'N/A') }}
               </td>
               <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
-                <a href="#" class="text-blue-600 hover:underline">Details</a>
+                <span class="icon icon-basic-file" style="margin-right: 4px; color: #0E6596;"></span>
+                <a href="#" style="color: #0E6596;" class="hover:underline">Details</a>
               </td>
             </tr>
             
             <!-- Empty State -->
             <tr *ngIf="getPaginatedData().length === 0">
-              <td colspan="6" class="px-4 py-8 text-center text-gray-500">
+              <td colspan="6" style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);" class="text-center text-gray-500">
                 No services found for this category.
               </td>
             </tr>
@@ -167,7 +168,8 @@
             <button 
               *ngIf="page !== '...'"
               (click)="navigateToPage(page)"
-              [class]="page === currentPage ? 'px-2 py-1 rounded border bg-blue-600 text-white' : 'px-2 py-1 rounded border bg-white text-gray-700'"
+              [ngStyle]="page === currentPage ? {'background-color': '#0E6596', 'color': 'white', 'border': '1px solid #0E6596'} : {'background-color': 'white', 'color': '#344054', 'border': '1px solid #E4E7EC'}"
+              class="px-2 py-1 rounded"
             >
               {{ page }}
             </button>
