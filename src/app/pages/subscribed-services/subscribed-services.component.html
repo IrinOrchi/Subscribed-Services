@@ -140,7 +140,7 @@
               </td>
               <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
                 <span class="icon icon-basic-file" style="margin-right: 4px; color: #0E6596;"></span>
-                <a href="#" style="color: #0E6596;" class="hover:underline">Details</a>
+                <a href="#" style="color: #0E6596;" class="hover:underline" (click)="openDetailsModal(item); $event.preventDefault()">Details</a>
               </td>
             </tr>
             
@@ -200,3 +200,9 @@
   (apply)="onDateRangeApply($event)"
   (cancel)="closeDatePicker()"
 ></app-date-range-picker-modal>
+
+<app-service-details-modal
+  *ngIf="showDetailsModal"
+  [service]="selectedService"
+  (close)="showDetailsModal = false">
+</app-service-details-modal>

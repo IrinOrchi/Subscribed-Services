@@ -1,12 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { DateRangePickerModalComponent } from '../../components/date-range-picker-modal/date-range-picker-modal.component';
 import { SubscribedServiceService } from '../../Services/SubscribedServices/subscribed-service.service';
 import { ServiceHistoryData, ServiceHistoryItem } from '../../Models/SubscribedService/subscribed';
+import { ServiceDetailsModalComponent } from '../../components/service-details-modal/service-details-modal.component';
 
 @Component({
   selector: 'app-subscribed-services',
-  imports: [CommonModule, DateRangePickerModalComponent],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    DateRangePickerModalComponent,
+    ServiceDetailsModalComponent
+  ],
   standalone: true,
   templateUrl: './subscribed-services.component.html',
   styleUrl: './subscribed-services.component.scss'
@@ -16,6 +23,9 @@ export class SubscribedServicesComponent implements OnInit {
   startDate: Date | null = null;
   endDate: Date | null = null;
   
+  showDetailsModal = false;
+  selectedService: ServiceHistoryItem | null = null;
+
   serviceData: ServiceHistoryData | null = null;
   loading = true;
   error: string | null = null;
@@ -315,5 +325,10 @@ export class SubscribedServicesComponent implements OnInit {
 
   printTable() {
     window.print();
+  }
+
+  openDetailsModal(item: ServiceHistoryItem) {
+    this.selectedService = item;
+    this.showDetailsModal = true;
   }
 }
