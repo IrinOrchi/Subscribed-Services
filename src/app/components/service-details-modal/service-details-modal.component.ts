@@ -15,26 +15,5 @@ export class ServiceDetailsModalComponent {
     this.close.emit();
   }
 
-  get listings() {
-    return [
-      {
-        name: 'Standard Listing',
-        limit: 15,
-        used: 10,
-        color: ''
-      },
-      {
-        name: 'Premium Listing',
-        limit: 15,
-        used: 10,
-        color: 'border-blue-300 bg-blue-50'
-      },
-      {
-        name: 'Premium Plus',
-        limit: 15,
-        used: 10,
-        color: 'border-yellow-200 bg-yellow-50'
-      }
-    ];
-  }
+ 
 } 
