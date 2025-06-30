@@ -24,7 +24,7 @@ export class SubscribedServicesComponent implements OnInit {
   endDate: Date | null = null;
   
   showDetailsModal = false;
-  selectedService: ServiceHistoryItem | null = null;
+  selectedService: any = null;
 
   serviceData: ServiceHistoryData | null = null;
   loading = true;
@@ -327,8 +327,29 @@ export class SubscribedServicesComponent implements OnInit {
     window.print();
   }
 
+
+  isSmsPackage(item: ServiceHistoryItem): boolean {
+    return (
+      item.totalPurchased > 0 &&
+      typeof item.restSMS === 'number' &&
+      item.totalJob === 0 &&
+      item.totalCV === 0
+    );
+  }
+
   openDetailsModal(item: ServiceHistoryItem) {
-    this.selectedService = item;
-    this.showDetailsModal = true;
+    if (this.isSmsPackage(item)) {
+      return;
+    }
+    this.subscribedService.getServiceDetails(item.id).subscribe({
+      next: (response) => {
+        this.selectedService = response.data;
+        this.showDetailsModal = true;
+      },
+      error: (error) => {
+        this.error = error.message || 'Failed to load service details';
+        console.error('Error loading service details:', error);
+      }
+    });
   }
 }

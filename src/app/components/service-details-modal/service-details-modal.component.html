@@ -11,20 +11,20 @@
     <div class="service-title-row">
       <div class="service-title-main">
         <span class="service-label">Service Name:</span>
-        <span class="service-name">CM-CV Package 1 <span class="service-code">(CVM1L1000)</span></span>
+        <span class="service-name">{{ service?.serviceName }} <span class="service-code"></span></span>
       </div>
     </div>
     <div class="service-meta-row-v2">
       <div class="service-meta-block-v2">
         <div class="service-meta-dates">
-          <span class="service-meta-value">11 Nov 2024</span>
+          <span class="service-meta-value">{{ service?.startingDate | date:'dd MMM yyyy' }}</span>
           <span class="service-meta-sep">to</span>
-          <span class="service-meta-value">21 May 2025</span>
+          <span class="service-meta-value">{{ service?.endingDate | date:'dd MMM yyyy' }}</span>
         </div>
         <div class="service-meta-label">Validity period</div>
       </div>
       <div class="service-meta-block-v2 service-meta-block-right-v2">
-        <div class="service-meta-duration-value">6 Months</div>
+        <div class="service-meta-duration-value">{{ service?.servicesDuration }} Months</div>
         <div class="service-meta-label service-meta-label-right">Service Duration</div>
       </div>
     </div>
