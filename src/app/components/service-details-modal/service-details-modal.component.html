@@ -89,7 +89,8 @@
           <span class="listing-card-info-used">({{ service?.maxPremiumJobs - service?.totalPremiumJobsPostAfterAccess }} Used)</span>
         </div>
       </div>
-        <div class="listing-card-v2 listing-card-v2-violet">
+      @if (service?.maxCV && service?.maxCV > 0) {
+      <div class="listing-card-v2 listing-card-v2-violet">
         <div class="listing-card-title-row">
           <span class="icon icon-play" style="color:#EAAA08;font-size:16px;margin-right:6px;"></span>
           <span class="listing-card-title listing-card-title-violet">CV Search</span>
@@ -109,6 +110,7 @@
           <span class="listing-card-info-used">({{ service?.maxPremiumJobs - service?.totalPremiumJobsPostAfterAccess }} Used)</span>
         </div>
       </div>
+      }
     </div>
   </div>
 </div> 
