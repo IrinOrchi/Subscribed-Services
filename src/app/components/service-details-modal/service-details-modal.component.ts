@@ -1,12 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { NgClass, NgIf } from '@angular/common';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-service-details-modal',
   templateUrl: './service-details-modal.component.html',
   styleUrls: ['./service-details-modal.component.scss'],
   standalone: true,
-  imports: [NgClass, NgIf]
+  imports: [CommonModule]
 })
 export class ServiceDetailsModalComponent {
   @Input() service: any; 

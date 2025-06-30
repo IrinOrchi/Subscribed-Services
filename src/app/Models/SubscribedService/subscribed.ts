@@ -44,3 +44,28 @@ export interface ServiceItem {
   cvsTotal?: number;
 }
 
+export interface ServiceDetailsResponse {
+  responseType: string;
+  dataContext: any;
+  responseCode: number;
+  requestedData: any;
+  data: ServiceDetailsData;
+}
+
+export interface ServiceDetailsData {
+  serviceType: number;
+  serviceName: string;
+  startingDate: string;
+  endingDate: string;
+  dayLeft: number;
+  servicesDuration: number;
+  maxJob: number;
+  postedJob: number;
+  maxCV: number;
+  viewedCV: number;
+  maxStandOutJob: number;
+  totalStandOutJobPostAfterAccess: number;
+  maxPremiumJobs: number;
+  totalPremiumJobsPostAfterAccess: number;
+}
+
