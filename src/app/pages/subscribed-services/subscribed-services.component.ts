@@ -194,7 +194,7 @@ export class SubscribedServicesComponent implements OnInit {
   }
 
   getExpireDate(item: ServiceHistoryItem): string {
-    return item.duration > 0 ? 'Calculated Date' : 'N/A';
+    return item.duration > 0 ? '3rd February 2026' : 'N/A';
   }
 
   loadServiceHistoryWithVType(v_type?: number) {

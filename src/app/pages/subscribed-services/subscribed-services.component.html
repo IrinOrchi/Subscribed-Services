@@ -84,7 +84,7 @@
             class="border rounded px-3 py-1 text-sm flex items-center gap-2"
             (click)="openDatePicker()"
           >
-            <span class="icon icon-calendar"></span>
+            <span class="icon icon-calendar text-gray-600"></span>
             <span style="color: #667085;">
               {{ startDate && endDate ? (startDate | date:'shortDate') + ' – ' + (endDate | date:'shortDate') : 'Start date – End date' }}
             </span>
