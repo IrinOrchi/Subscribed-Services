@@ -144,11 +144,33 @@
   color: #7641E6;
 }
 .listing-card-info-row {
+  display: grid;
+  grid-template-columns: 220px 32px 1fr;
+  align-items: center;
+  font-size: 14px;
+  color: #344054;
+  column-gap: 0;
+}
+.listing-card-info-limit {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 14px;
-  color: #344054;
+  min-width: 0;
+}
+.listing-card-divider {
+  color: #D0D5DD;
+  margin: 0 auto;
+  min-width: 16px;
+  text-align: center;
+  display: block;
+  font-weight: bold;
+}
+.listing-card-info-posted {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+  gap: 2px;
+  white-space: nowrap;
 }
 .listing-card-info-label {
   color: #667085;
@@ -178,10 +200,9 @@
   color: #98A2B3;
   font-size: 13px;
   margin-left: 2px;
-}
-.listing-card-divider {
-  color: #D0D5DD;
-  margin: 0 8px;
+  vertical-align: sub;
+  position: relative;
+  top: 3px;
 }
 .listing-card-v2-blue {
   border-color: #BCD4FF !important;
