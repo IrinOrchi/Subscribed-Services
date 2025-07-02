@@ -24,7 +24,7 @@
         <div class="service-meta-label">Validity period</div>
       </div>
       <div class="service-meta-block-v2 service-meta-block-right-v2">
-        <div class="service-meta-duration-value">{{ service?.servicesDuration }} Months</div>
+        <div class="service-meta-duration-value">{{ service?.servicesDuration }} {{ (service?.servicesDuration === 1 || service?.servicesDuration === 0) ? 'month' : 'months' }}</div>
         <div class="service-meta-label service-meta-label-right">Service Duration</div>
       </div>
     </div>
@@ -46,7 +46,7 @@
           <span class="icon icon-basic-file" style="color:#667085;font-size:16px;margin-right:4px;"></span>
           <span class="listing-card-info-label">You have posted</span>
           <span class="listing-card-info-value-bold">{{ service?.postedJob }}</span>
-          <span class="listing-card-info-used">({{ service?.maxJob - service?.postedJob }} Used)</span>
+          <span class="listing-card-info-used">({{ service?.maxJob - service?.postedJob }} Remaining)</span>
         </div>
       </div>
       <div class="listing-card-v2 listing-card-v2-blue">
@@ -66,7 +66,7 @@
           <span class="icon icon-basic-file" style="color:#667085;font-size:16px;margin-right:4px;"></span>
           <span class="listing-card-info-label">You have posted</span>
           <span class="listing-card-info-value-bold">{{ service?.totalStandOutJobPostAfterAccess }}</span>
-          <span class="listing-card-info-used">({{ service?.maxStandOutJob - service?.totalStandOutJobPostAfterAccess }} Used)</span>
+          <span class="listing-card-info-used">({{ service?.maxStandOutJob - service?.totalStandOutJobPostAfterAccess }} Remaining)</span>
         </div>
       </div>
       <div class="listing-card-v2 listing-card-v2-yellow">
@@ -86,7 +86,7 @@
           <span class="icon icon-basic-file" style="color:#667085;font-size:16px;margin-right:4px;"></span>
           <span class="listing-card-info-label">You have posted</span>
           <span class="listing-card-info-value-bold">{{ service?.totalPremiumJobsPostAfterAccess }}</span>
-          <span class="listing-card-info-used">({{ service?.maxPremiumJobs - service?.totalPremiumJobsPostAfterAccess }} Used)</span>
+          <span class="listing-card-info-used">({{ service?.maxPremiumJobs - service?.totalPremiumJobsPostAfterAccess }} Remaining)</span>
         </div>
       </div>
       @if (service?.maxCV && service?.maxCV > 0) {
@@ -107,7 +107,7 @@
           <span class="icon icon-basic-file" style="color:#667085;font-size:16px;margin-right:4px;"></span>
           <span class="listing-card-info-label">You have posted</span>
           <span class="listing-card-info-value-bold">{{ service?.totalPremiumJobsPostAfterAccess }}</span>
-          <span class="listing-card-info-used">({{ service?.maxPremiumJobs - service?.totalPremiumJobsPostAfterAccess }} Used)</span>
+          <span class="listing-card-info-used">({{ service?.maxPremiumJobs - service?.totalPremiumJobsPostAfterAccess }} Remaining)</span>
         </div>
       </div>
       }
