@@ -12,7 +12,7 @@ export const routes: Routes = [
     {
         path: "SubscribedServices",
         component: SubscribedServicesComponent,
-        // canActivate: [AuthGuard]
+        canActivate: [AuthGuard]
     },
    
 ];
