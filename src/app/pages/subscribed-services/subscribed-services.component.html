@@ -120,8 +120,11 @@
               <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);" class="flex items-center gap-2">
                 <span class="icon icon-service-list"></span>
                 {{ item.serviceName }}
-                <span 
-                  [class]="getStatus(item) === 'Active' ? 'ml-2 bg-green-100 text-green-700 text-xs font-semibold px-2 py-0.5 rounded' : 'ml-2 bg-gray-200 text-gray-500 text-xs font-semibold px-2 py-0.5 rounded'"
+                <span
+                  [ngClass]="'ml-2 text-xs font-semibold px-4 py-1 rounded-full border' + (getStatus(item) === 'Active' ? ' text-[#067647]' : ' text-[#344054]')"
+                  [ngStyle]="getStatus(item) === 'Active' 
+                    ? {'background-color': '#ECFDF3', 'border-color': '#ABEFC6', 'border-width': '1.5px', 'border-style': 'solid'} 
+                    : {'background-color': '#F9FAFB', 'border-color': '#E4E7EC', 'border-width': '1.5px', 'border-style': 'solid'}"
                 >
                   {{ getStatus(item) }}
                 </span>
