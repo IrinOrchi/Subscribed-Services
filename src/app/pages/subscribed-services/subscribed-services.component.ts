@@ -5,6 +5,7 @@ import { DateRangePickerModalComponent } from '../../components/date-range-picke
 import { SubscribedServiceService } from '../../Services/SubscribedServices/subscribed-service.service';
 import { ServiceHistoryData, ServiceHistoryItem } from '../../Models/SubscribedService/subscribed';
 import { ServiceDetailsModalComponent } from '../../components/service-details-modal/service-details-modal.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-subscribed-services',
@@ -32,6 +33,7 @@ export class SubscribedServicesComponent implements OnInit {
   activeTab: 'all' | 'cm' | 'job' | 'sms' | 'cv' = 'all';
   currentPage = 1;
   itemsPerPage = 10;
+  datePipe = new DatePipe('en-US');
 
   constructor(private subscribedService: SubscribedServiceService) {}
 
@@ -186,7 +188,7 @@ export class SubscribedServicesComponent implements OnInit {
   }
 
   getStatus(item: ServiceHistoryItem): 'Active' | 'Expired' {
-    return item.duration > 0 ? 'Active' : 'Expired';
+    return item.isActive ? 'Active' : 'Expired';
   }
 
   getSubscriptionDuration(item: ServiceHistoryItem): string {
@@ -194,7 +196,11 @@ export class SubscribedServicesComponent implements OnInit {
   }
 
   getExpireDate(item: ServiceHistoryItem): string {
-    return item.duration > 0 ? '3rd February 2026' : 'N/A';
+    if (item.expireDate) {
+      const formatted = this.datePipe.transform(item.expireDate, 'd MMMM yyyy');
+      return formatted ? formatted : 'N/A';
+    }
+    return 'N/A';
   }
 
   loadServiceHistoryWithVType(v_type?: number) {

@@ -29,6 +29,8 @@ export interface ServiceHistoryItem {
   restCV: number;
   totalPurchased: number;
   restSMS: number;
+  isActive: boolean; 
+  expireDate: string; 
 }
 
 export interface ServiceItem {
