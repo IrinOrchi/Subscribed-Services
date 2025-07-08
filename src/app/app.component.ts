@@ -10,12 +10,11 @@ import { filter } from 'rxjs';
 import { SalesContactComponent } from "./components/sales-contact/sales-contact.component";
 import { ModalComponent } from "./components/modal/modal.component";
 import { CommonModule } from '@angular/common';
-// import { BackToTopComponent } from "./components/Shared/shared/back-to-top/back-to-top.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, FooterComponent, NavComponent, SalesContactComponent, ModalComponent, CommonModule],
+  imports: [RouterOutlet, FooterComponent, NavComponent, SalesContactComponent, ModalComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
