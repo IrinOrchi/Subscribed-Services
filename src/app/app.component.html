@@ -5,6 +5,8 @@
 <app-footer></app-footer>
 
 <!-- Modal Container -->
-<app-modal *ngIf="(modalService.modalConfig$ | async)?.componentRef && !(modalService.modalConfig$ | async)?.isClose">
-  <ng-container *ngComponentOutlet="(modalService.modalConfig$ | async)?.componentRef!"></ng-container>
-</app-modal>
+@if ((modalService.modalConfig$ | async)?.componentRef && !(modalService.modalConfig$ | async)?.isClose) {
+  <app-modal>
+    <ng-container *ngComponentOutlet="(modalService.modalConfig$ | async)?.componentRef!"></ng-container>
+  </app-modal>
+}

@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, signal, WritableSignal } from '@angular/core';
 
 @Component({
   selector: 'app-email-template-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './email-template-modal.component.html',
   styleUrl: './email-template-modal.component.scss'
 })
