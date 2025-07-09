@@ -5,206 +5,224 @@
     <p class="text-gray-500 mb-6">Set up your bdjobs recruiter presence and hiring needs.</p>
 
     <!-- Loading State -->
-    <div *ngIf="loading" class="flex justify-center items-center py-8">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-      <span class="ml-2 text-gray-600">Loading service history...</span>
-    </div>
-
-
-      <!-- Tabs -->
-      <div class="flex space-x-2 mb-4">
-        <button 
-          (click)="setActiveTab('all')"
-          [class]="activeTab === 'all' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
-          [style.color]="activeTab === 'all' ? '#0E73A9' : '#344054'"
-          class="flex items-center gap-2"
-        >
-          All <span 
-            [style.background-color]="activeTab === 'all' ? '#0E73A9' : '#E4E7EC'"
-            [style.color]="activeTab === 'all' ? 'white' : '#344054'"
-            class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('all') }}</span>
-        </button>
-         <button 
-          (click)="setActiveTab('job')"
-          [class]="activeTab === 'job' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
-          [style.color]="activeTab === 'job' ? '#0E73A9' : '#344054'"
-          class="flex items-center gap-2"
-        >
-          Job Posting Access <span 
-            [style.background-color]="activeTab === 'job' ? '#0E73A9' : '#E4E7EC'"
-            [style.color]="activeTab === 'job' ? 'white' : '#344054'"
-            class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('job') }}</span>
-        </button>
-        <button 
-          (click)="setActiveTab('cm')"
-          [class]="activeTab === 'cm' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
-          [style.color]="activeTab === 'cm' ? '#0E73A9' : '#344054'"
-          class="flex items-center gap-2"
-        >
-          CM Package Access <span 
-            [style.background-color]="activeTab === 'cm' ? '#0E73A9' : '#E4E7EC'"
-            [style.color]="activeTab === 'cm' ? 'white' : '#344054'"
-            class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('cm') }}</span>
-        </button>
-       
-        <button 
-          [class]="'px-4 py-2 rounded-t font-medium bg-gray-50'"
-          [style.color]="'#344054'"
-          class="flex items-center gap-2"
-          disabled
-        >
-          SMS Package Access <span 
-            [style.background-color]="'#E4E7EC'"
-            [style.color]="'#344054'"
-            class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('sms') }}</span>
-        </button>
-        <button 
-          (click)="setActiveTab('cv')"
-          [class]="activeTab === 'cv' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
-          [style.color]="activeTab === 'cv' ? '#0E73A9' : '#344054'"
-          class="flex items-center gap-2"
-        >
-          CV Bank Access <span 
-            [style.background-color]="activeTab === 'cv' ? '#0E73A9' : '#E4E7EC'"
-            [style.color]="activeTab === 'cv' ? 'white' : '#344054'"
-            class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('cv') }}</span>
-        </button>
+    @if (loading) {
+      <div class="flex justify-center items-center py-8">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <span class="ml-2 text-gray-600">Loading service history...</span>
       </div>
+    }
 
-      <!-- Filters and Print -->
-      <div class="flex items-center justify-between mb-4">
-        <div></div>
-        <div class="flex items-center gap-2">
-          <button class="flex items-center gap-1 text-gray-600 hover:text-[#0E73A9] text-sm" (click)="printTable()">
-            <span class="icon icon-print"></span>
-            Print
-          </button>
-          <button
-            class="border rounded px-3 py-1 text-sm flex items-center gap-2"
-            (click)="openDatePicker()"
-          >
-            <span class="icon icon-calendar text-gray-600"></span>
-            <span style="color: #667085;">
-              {{ startDate && endDate ? (startDate | date:'shortDate') + ' – ' + (endDate | date:'shortDate') : 'Start date – End date' }}
-            </span>
-          </button>
-          <button
-            *ngIf="startDate && endDate"
-            class="text-red-600 hover:text-red-800 text-sm"
-            (click)="clearDateFilters()"
-          >
-            Clear
-          </button>
-        </div>
-      </div>
 
-      <!-- Table -->
-      <div class="overflow-x-auto bg-white rounded shadow">
-        <table class="min-w-full text-sm" style="color: #344054; font-family: var(--Font-family-font-family-body, Inter), Inter, sans-serif;">
-          <thead class="bg-gray-200">
-            <tr>
-              <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">SL</th>
-              <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">Service Name</th>
-              <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">Usage</th>
-              <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">Expire Date</th>
-              <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">Subscription Duration</th>
-              <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Dynamic Rows -->
-            <tr *ngFor="let item of getPaginatedData(); let i = index" class="border-b">
-              <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
-                {{ ((currentPage - 1) * itemsPerPage + i + 1) < 10 ? '0' + ((currentPage - 1) * itemsPerPage + i + 1) : ((currentPage - 1) * itemsPerPage + i + 1) }}
-              </td>
-              <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);" class="flex items-center gap-2">
-                <span class="icon icon-service-list"></span>
-                {{ item.serviceName }}
-                <span
-                  [ngClass]="'ml-2 text-xs font-semibold px-4 py-1 rounded-full border' + (getStatus(item) === 'Active' ? ' text-[#067647]' : ' text-[#344054]')"
-                  [ngStyle]="getStatus(item) === 'Active' 
-                    ? {'background-color': '#ECFDF3', 'border-color': '#ABEFC6', 'border-width': '1.5px', 'border-style': 'solid'} 
-                    : {'background-color': '#F9FAFB', 'border-color': '#E4E7EC', 'border-width': '1.5px', 'border-style': 'solid'}"
-                >
-                  {{ getStatus(item) }}
-                </span>
-              </td>
-              <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
-                <ng-container *ngIf="getUsageDisplay(item) as usage">
-                  <span *ngIf="usage.includes(' ')" style="font-weight: 600;">{{ usage.split(' ')[0] }}</span>
-                  <span *ngIf="usage.includes(' ')">&nbsp;{{ usage.split(' ').slice(1).join(' ') }}</span>
-                  <span *ngIf="!usage.includes(' ')" style="font-weight: 600;">{{ usage }}</span>
-                </ng-container>
-              </td>
-              <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">{{ getExpireDate(item) }}</td>
-              <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
-                {{ item.duration === 1 ? '1 Month' : (item.duration > 1 ? item.duration + ' Months' : 'N/A') }}
-              </td>
-              <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
-                <span class="icon icon-basic-file" style="margin-right: 4px; color: #0E6596;"></span>
-                <a href="#" style="color: #0E6596;" class="hover:underline" (click)="openDetailsModal(item); $event.preventDefault()">Details</a>
-              </td>
-            </tr>
-            
-            <!-- Empty State -->
-            <tr *ngIf="getPaginatedData().length === 0">
-              <td colspan="6" style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);" class="text-center text-gray-500">
-                No services found for this category.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <!-- Tabs -->
+    <div class="flex space-x-2 mb-4">
+      <button
+        (click)="setActiveTab('all')"
+        [class]="activeTab === 'all' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
+        [style.color]="activeTab === 'all' ? '#0E73A9' : '#344054'"
+        class="flex items-center gap-2"
+        >
+        All <span
+        [style.background-color]="activeTab === 'all' ? '#0E73A9' : '#E4E7EC'"
+        [style.color]="activeTab === 'all' ? 'white' : '#344054'"
+      class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('all') }}</span>
+    </button>
+    <button
+      (click)="setActiveTab('job')"
+      [class]="activeTab === 'job' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
+      [style.color]="activeTab === 'job' ? '#0E73A9' : '#344054'"
+      class="flex items-center gap-2"
+      >
+      Job Posting Access <span
+      [style.background-color]="activeTab === 'job' ? '#0E73A9' : '#E4E7EC'"
+      [style.color]="activeTab === 'job' ? 'white' : '#344054'"
+    class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('job') }}</span>
+  </button>
+  <button
+    (click)="setActiveTab('cm')"
+    [class]="activeTab === 'cm' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
+    [style.color]="activeTab === 'cm' ? '#0E73A9' : '#344054'"
+    class="flex items-center gap-2"
+    >
+    CM Package Access <span
+    [style.background-color]="activeTab === 'cm' ? '#0E73A9' : '#E4E7EC'"
+    [style.color]="activeTab === 'cm' ? 'white' : '#344054'"
+  class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('cm') }}</span>
+</button>
 
-      <!-- Pagination -->
-      <div *ngIf="getTotalPages() > 1" class="flex items-center justify-between mt-4">
-        <div class="text-sm text-gray-500">Page {{ currentPage }} of {{ getTotalPages() }}</div>
-        <div class="flex items-center gap-1">
-          <button 
-            (click)="goToPage(currentPage - 1)"
-            [disabled]="currentPage === 1"
-            class="px-2 py-1 rounded border text-gray-500 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Previous
-          </button>
-          
-          <!-- Page Numbers -->
-          <ng-container *ngFor="let page of getPageNumbers()">
-            <button 
-              *ngIf="page !== '...'"
-              (click)="navigateToPage(page)"
-              [ngStyle]="page === currentPage ? {'background-color': '#0E6596', 'color': 'white', 'border': '1px solid #0E6596'} : {'background-color': 'white', 'color': '#344054', 'border': '1px solid #E4E7EC'}"
-              class="px-2 py-1 rounded"
-            >
-              {{ page }}
-            </button>
-            <span *ngIf="page === '...'" class="px-2">...</span>
-          </ng-container>
-          
-          <button 
-            (click)="goToPage(currentPage + 1)"
-            [disabled]="currentPage === getTotalPages()"
-            class="px-2 py-1 rounded border text-gray-500 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Next
-          </button>
-        </div>
-      </div>
-   
+<button
+  [class]="'px-4 py-2 rounded-t font-medium bg-gray-50'"
+  [style.color]="'#344054'"
+  class="flex items-center gap-2"
+  disabled
+  >
+  SMS Package Access <span
+  [style.background-color]="'#E4E7EC'"
+  [style.color]="'#344054'"
+class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('sms') }}</span>
+</button>
+<button
+  (click)="setActiveTab('cv')"
+  [class]="activeTab === 'cv' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
+  [style.color]="activeTab === 'cv' ? '#0E73A9' : '#344054'"
+  class="flex items-center gap-2"
+  >
+  CV Bank Access <span
+  [style.background-color]="activeTab === 'cv' ? '#0E73A9' : '#E4E7EC'"
+  [style.color]="activeTab === 'cv' ? 'white' : '#344054'"
+class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('cv') }}</span>
+</button>
+</div>
+
+<!-- Filters and Print -->
+<div class="flex items-center justify-between mb-4">
+  <div></div>
+  <div class="flex items-center gap-2">
+    <button class="flex items-center gap-1 text-gray-600 hover:text-[#0E73A9] text-sm" (click)="printTable()">
+      <span class="icon icon-print"></span>
+      Print
+    </button>
+    <button
+      class="border rounded px-3 py-1 text-sm flex items-center gap-2"
+      (click)="openDatePicker()"
+      >
+      <span class="icon icon-calendar text-gray-600"></span>
+      <span style="color: #667085;">
+        {{ startDate && endDate ? (startDate | date:'shortDate') + ' – ' + (endDate | date:'shortDate') : 'Start date – End date' }}
+      </span>
+    </button>
+    @if (startDate && endDate) {
+      <button
+        class="text-red-600 hover:text-red-800 text-sm"
+        (click)="clearDateFilters()"
+        >
+        Clear
+      </button>
+    }
   </div>
 </div>
 
-<!-- Date Range Picker Modal -->
-<app-date-range-picker-modal
-  *ngIf="showDatePicker"
-  [initialStartDate]="startDate"
-  [initialEndDate]="endDate"
-  (apply)="onDateRangeApply($event)"
-  (cancel)="closeDatePicker()"
-></app-date-range-picker-modal>
+<!-- Table -->
+<div class="overflow-x-auto bg-white rounded shadow">
+  <table class="min-w-full text-sm" style="color: #344054; font-family: var(--Font-family-font-family-body, Inter), Inter, sans-serif;">
+    <thead class="bg-gray-200">
+      <tr>
+        <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">SL</th>
+        <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">Service Name</th>
+        <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">Usage</th>
+        <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">Expire Date</th>
+        <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">Subscription Duration</th>
+        <th style="padding: var(--spacing-lg, 12px);" class="text-left font-medium text-black">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Dynamic Rows -->
+      @for (item of getPaginatedData(); track item; let i = $index) {
+        <tr class="border-b">
+          <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
+            {{ ((currentPage - 1) * itemsPerPage + i + 1) < 10 ? '0' + ((currentPage - 1) * itemsPerPage + i + 1) : ((currentPage - 1) * itemsPerPage + i + 1) }}
+          </td>
+          <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);" class="flex items-center gap-2">
+            <span class="icon icon-service-list"></span>
+            {{ item.serviceName }}
+            <span
+              [ngClass]="'ml-2 text-xs font-semibold px-4 py-1 rounded-full border' + (getStatus(item) === 'Active' ? ' text-[#067647]' : ' text-[#344054]')"
+                  [ngStyle]="getStatus(item) === 'Active' 
+                    ? {'background-color': '#ECFDF3', 'border-color': '#ABEFC6', 'border-width': '1.5px', 'border-style': 'solid'} 
+                    : {'background-color': '#F9FAFB', 'border-color': '#E4E7EC', 'border-width': '1.5px', 'border-style': 'solid'}"
+              >
+              {{ getStatus(item) }}
+            </span>
+          </td>
+          <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
+            @if (getUsageDisplay(item); as usage) {
+              @if (usage.includes(' ')) {
+                <span style="font-weight: 600;">{{ usage.split(' ')[0] }}</span>
+              }
+              @if (usage.includes(' ')) {
+                <span>&nbsp;{{ usage.split(' ').slice(1).join(' ') }}</span>
+              }
+              @if (!usage.includes(' ')) {
+                <span style="font-weight: 600;">{{ usage }}</span>
+              }
+            }
+          </td>
+          <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">{{ getExpireDate(item) }}</td>
+          <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
+            {{ item.duration === 1 ? '1 Month' : (item.duration > 1 ? item.duration + ' Months' : 'N/A') }}
+          </td>
+          <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
+            <span class="icon icon-basic-file" style="margin-right: 4px; color: #0E6596;"></span>
+            <a href="#" style="color: #0E6596;" class="hover:underline" (click)="openDetailsModal(item); $event.preventDefault()">Details</a>
+          </td>
+        </tr>
+      }
 
-<app-service-details-modal
-  *ngIf="showDetailsModal"
-  [service]="selectedService"
-  (close)="showDetailsModal = false">
-</app-service-details-modal>
+      <!-- Empty State -->
+      @if (getPaginatedData().length === 0) {
+        <tr>
+          <td colspan="6" style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);" class="text-center text-gray-500">
+            No services found for this category.
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination -->
+@if (getTotalPages() > 1) {
+  <div class="flex items-center justify-between mt-4">
+    <div class="text-sm text-gray-500">Page {{ currentPage }} of {{ getTotalPages() }}</div>
+    <div class="flex items-center gap-1">
+      <button
+        (click)="goToPage(currentPage - 1)"
+        [disabled]="currentPage === 1"
+        class="px-2 py-1 rounded border text-gray-500 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+        Previous
+      </button>
+      <!-- Page Numbers -->
+      @for (page of getPageNumbers(); track page) {
+        @if (page !== '...') {
+          <button
+            (click)="navigateToPage(page)"
+            [ngStyle]="page === currentPage ? {'background-color': '#0E6596', 'color': 'white', 'border': '1px solid #0E6596'} : {'background-color': 'white', 'color': '#344054', 'border': '1px solid #E4E7EC'}"
+            class="px-2 py-1 rounded"
+            >
+            {{ page }}
+          </button>
+        }
+        @if (page === '...') {
+          <span class="px-2">...</span>
+        }
+      }
+      <button
+        (click)="goToPage(currentPage + 1)"
+        [disabled]="currentPage === getTotalPages()"
+        class="px-2 py-1 rounded border text-gray-500 bg-white disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+        Next
+      </button>
+    </div>
+  </div>
+}
+
+</div>
+</div>
+
+<!-- Date Range Picker Modal -->
+@if (showDatePicker) {
+  <app-date-range-picker-modal
+    [initialStartDate]="startDate"
+    [initialEndDate]="endDate"
+    (apply)="onDateRangeApply($event)"
+    (cancel)="closeDatePicker()"
+  ></app-date-range-picker-modal>
+}
+
+@if (showDetailsModal) {
+  <app-service-details-modal
+    [service]="selectedService"
+    (close)="showDetailsModal = false">
+  </app-service-details-modal>
+}
