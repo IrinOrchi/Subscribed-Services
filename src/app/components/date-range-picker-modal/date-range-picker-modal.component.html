@@ -13,7 +13,7 @@
           <div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div><div>Su</div>
         </div>
         <div class="grid grid-cols-7 gap-1 text-center text-sm">
-          <ng-container *ngFor="let day of leftMonthDays">
+          @for (day of leftMonthDays; track day) {
             <button
               class="w-7 h-7 rounded-full"
               [ngClass]="{
@@ -24,10 +24,10 @@
               }"
               (click)="selectDate(day, 'left')"
               [disabled]="!day"
-            >
+              >
               {{ day || '' }}
             </button>
-          </ng-container>
+          }
         </div>
       </div>
       <div class="w-px bg-gray-200 mx-2 self-stretch"></div>
@@ -43,7 +43,7 @@
           <div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div><div>Su</div>
         </div>
         <div class="grid grid-cols-7 gap-1 text-center text-sm">
-          <ng-container *ngFor="let day of rightMonthDays">
+          @for (day of rightMonthDays; track day) {
             <button
               class="w-7 h-7 rounded-full"
               [ngClass]="{
@@ -54,10 +54,10 @@
               }"
               (click)="selectDate(day, 'right')"
               [disabled]="!day"
-            >
+              >
               {{ day || '' }}
             </button>
-          </ng-container>
+          }
         </div>
       </div>
     </div>
@@ -69,4 +69,4 @@
       <button class="px-3 py-1 rounded bg-pink-600 text-white min-w-[70px]" (click)="onApply()">Apply</button>
     </div>
   </div>
-</div> 
+</div>
