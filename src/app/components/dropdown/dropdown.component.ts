@@ -1,31 +1,32 @@
 import { Component, Input, Output, EventEmitter, HostListener, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-dropdown',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="relative inline-block">
-      <div 
+      <div
         class="flex items-center w-full text-gray-600 font-medium cursor-pointer"
         (click)="toggleDropdown()"
-      >
+        >
         <ng-content select="[dropdown-trigger]"></ng-content>
       </div>
-      
-      <div 
-        *ngIf="isOpen"
-        class="dropdown-menu fixed z-[9999] w-48 bg-white rounded-lg shadow-lg border border-gray-200"
-        [style.left.px]="dropdownPosition.left"
-        [style.top.px]="dropdownPosition.top"
-      >
-        <div class="py-1">
-          <ng-content select="[dropdown-content]"></ng-content>
+    
+      @if (isOpen) {
+        <div
+          class="dropdown-menu fixed z-[9999] w-48 bg-white rounded-lg shadow-lg border border-gray-200"
+          [style.left.px]="dropdownPosition.left"
+          [style.top.px]="dropdownPosition.top"
+          >
+          <div class="py-1">
+            <ng-content select="[dropdown-content]"></ng-content>
+          </div>
         </div>
-      </div>
+      }
     </div>
-  `,
+    `,
   styles: [`
     :host {
       display: inline-block;
