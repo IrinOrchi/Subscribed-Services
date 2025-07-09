@@ -1,13 +1,13 @@
 import { Component, HostListener } from '@angular/core';
 import { ModalComponent } from '../modal/modal.component'; // Import ModalComponent
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [ModalComponent, CommonModule]  // Import ModalComponent here
+  imports: [ModalComponent]  // Import ModalComponent here
 })
 export class HeaderComponent {
   isDropdownOpen: boolean = false; // Credit dropdown state
