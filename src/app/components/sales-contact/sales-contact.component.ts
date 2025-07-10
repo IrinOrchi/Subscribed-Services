@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { SalesPersonData } from '../../layouts/nav/class/navbarResponse';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-sales-contact',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './sales-contact.component.html',
   styleUrl: './sales-contact.component.scss'
 })
