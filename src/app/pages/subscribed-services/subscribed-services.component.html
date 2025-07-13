@@ -14,55 +14,56 @@
 
 
     <!-- Tabs -->
-    <div class="flex space-x-2 mb-4">
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex space-x-0">
+        <button
+          (click)="setActiveTab('all')"
+          [class]="(activeTab === 'all' ? 'px-4 py-2 rounded font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-white') + ' text-[14px]'"
+          [style.color]="activeTab === 'all' ? '#0E73A9' : '#344054'"
+          class="flex items-center gap-2"
+          >
+          All <span
+          [style.background-color]="activeTab === 'all' ? '#0E73A9' : '#E4E7EC'"
+          [style.color]="activeTab === 'all' ? 'white' : '#344054'"
+        class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('all') }}</span>
+      </button>
       <button
-        (click)="setActiveTab('all')"
-        [class]="activeTab === 'all' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
-        [style.color]="activeTab === 'all' ? '#0E73A9' : '#344054'"
+        (click)="setActiveTab('job')"
+        [class]="(activeTab === 'job' ? 'px-4 py-2 rounded font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-white') + ' text-[14px]'"
+        [style.color]="activeTab === 'job' ? '#0E73A9' : '#344054'"
         class="flex items-center gap-2"
         >
-        All <span
-        [style.background-color]="activeTab === 'all' ? '#0E73A9' : '#E4E7EC'"
-        [style.color]="activeTab === 'all' ? 'white' : '#344054'"
-      class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('all') }}</span>
+        Job Posting Access <span
+        [style.background-color]="activeTab === 'job' ? '#0E73A9' : '#E4E7EC'"
+        [style.color]="activeTab === 'job' ? 'white' : '#344054'"
+      class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('job') }}</span>
     </button>
     <button
-      (click)="setActiveTab('job')"
-      [class]="activeTab === 'job' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
-      [style.color]="activeTab === 'job' ? '#0E73A9' : '#344054'"
+      (click)="setActiveTab('cm')"
+      [class]="(activeTab === 'cm' ? 'px-4 py-2 rounded font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-white') + ' text-[14px]'"
+      [style.color]="activeTab === 'cm' ? '#0E73A9' : '#344054'"
       class="flex items-center gap-2"
       >
-      Job Posting Access <span
-      [style.background-color]="activeTab === 'job' ? '#0E73A9' : '#E4E7EC'"
-      [style.color]="activeTab === 'job' ? 'white' : '#344054'"
-    class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('job') }}</span>
+      CM Package Access <span
+      [style.background-color]="activeTab === 'cm' ? '#0E73A9' : '#E4E7EC'"
+      [style.color]="activeTab === 'cm' ? 'white' : '#344054'"
+    class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('cm') }}</span>
   </button>
-  <button
-    (click)="setActiveTab('cm')"
-    [class]="activeTab === 'cm' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
-    [style.color]="activeTab === 'cm' ? '#0E73A9' : '#344054'"
-    class="flex items-center gap-2"
-    >
-    CM Package Access <span
-    [style.background-color]="activeTab === 'cm' ? '#0E73A9' : '#E4E7EC'"
-    [style.color]="activeTab === 'cm' ? 'white' : '#344054'"
-  class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('cm') }}</span>
-</button>
 
-<button
-  [class]="'px-4 py-2 rounded-t font-medium bg-gray-50'"
-  [style.color]="'#344054'"
-  class="flex items-center gap-2"
-  disabled
-  >
-  SMS Package Access <span
-  [style.background-color]="'#E4E7EC'"
-  [style.color]="'#344054'"
-class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('sms') }}</span>
+  <button
+    [class]="'px-4 py-2 rounded-t font-medium bg-gray-50 text-[14px]'"
+    [style.color]="'#344054'"
+    class="flex items-center gap-2"
+    disabled
+    >
+    SMS Package Access <span
+    [style.background-color]="'#E4E7EC'"
+    [style.color]="'#344054'"
+  class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('sms') }}</span>
 </button>
 <button
   (click)="setActiveTab('cv')"
-  [class]="activeTab === 'cv' ? 'px-4 py-2 rounded-t font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-gray-100'"
+  [class]="(activeTab === 'cv' ? 'px-4 py-2 rounded font-medium cursor-pointer bg-blue-100' : 'px-4 py-2 rounded-t bg-gray-50 font-medium cursor-pointer hover:bg-white') + ' text-[14px]'"
   [style.color]="activeTab === 'cv' ? '#0E73A9' : '#344054'"
   class="flex items-center gap-2"
   >
@@ -71,35 +72,31 @@ class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('sms') }}</span>
   [style.color]="activeTab === 'cv' ? 'white' : '#344054'"
 class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('cv') }}</span>
 </button>
-</div>
-
-<!-- Filters and Print -->
-<div class="flex items-center justify-between mb-4">
-  <div></div>
-  <div class="flex items-center gap-2">
-    <button class="flex items-center gap-1 text-gray-600 hover:text-[#0E73A9] text-sm" (click)="printTable()">
-      <span class="icon icon-print"></span>
-      Print
-    </button>
-    <button
-      class="border rounded px-3 py-1 text-sm flex items-center gap-2"
-      (click)="openDatePicker()"
-      >
-      <span class="icon icon-calendar text-gray-600"></span>
-      <span style="color: #667085;">
-        {{ startDate && endDate ? (startDate | date:'shortDate') + ' – ' + (endDate | date:'shortDate') : 'Start date – End date' }}
-      </span>
-    </button>
-    @if (startDate && endDate) {
-      <button
-        class="text-red-600 hover:text-red-800 text-sm"
-        (click)="clearDateFilters()"
-        >
-        Clear
+    </div>
+    <div class="flex items-center gap-2">
+      <button class="flex items-center gap-1 text-gray-600 hover:text-[#0E73A9] text-sm" (click)="printTable()">
+        <span class="icon icon-print"></span>
+        Print
       </button>
-    }
+      <button
+        class="border rounded px-3 py-1 text-sm flex items-center gap-2"
+        (click)="openDatePicker()"
+        >
+        <span class="icon icon-calendar text-gray-600"></span>
+        <span style="color: #667085;">
+          {{ startDate && endDate ? (startDate | date:'shortDate') + ' – ' + (endDate | date:'shortDate') : 'Start date – End date' }}
+        </span>
+      </button>
+      @if (startDate && endDate) {
+        <button
+          class="text-red-600 hover:text-red-800 text-sm"
+          (click)="clearDateFilters()"
+          >
+          Clear
+        </button>
+      }
+    </div>
   </div>
-</div>
 
 <!-- Table -->
 <div class="overflow-x-auto bg-white rounded shadow">
