@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+// Exported type for template usage
+export type CalendarDay = { day: number | null, type: 'current' | 'next' | 'prev' };
+
 @Component({
   selector: 'app-date-range-picker-modal',
   standalone: true,
@@ -37,36 +40,41 @@ export class DateRangePickerModalComponent {
     this.endDate = this.initialEndDate;
   }
 
-  get leftMonthDays() {
+  public get leftMonthDays() {
     return this.generateCalendarDays(this.displayYearLeft, this.displayMonthLeft);
   }
-  get rightMonthDays() {
+  public get rightMonthDays() {
     return this.generateCalendarDays(this.displayYearRight, this.displayMonthRight);
   }
 
-  get startDateString() {
+  public get startDateString() {
     return this.startDate ? this.formatDate(this.startDate) : '';
   }
-  get endDateString() {
+  public get endDateString() {
     return this.endDate ? this.formatDate(this.endDate) : '';
   }
 
-  generateCalendarDays(year: number, month: number): (number | null)[] {
+  // Updated function to always return 6 rows (42 days)
+  generateCalendarDays(year: number, month: number): CalendarDay[] {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    const days: (number | null)[] = [];
+    const days: CalendarDay[] = [];
     let startOffset = (firstDay.getDay() + 6) % 7;
-    for (let i = 0; i < startOffset; i++) days.push(null);
-    for (let d = 1; d <= lastDay.getDate(); d++) days.push(d);
-    while (days.length % 7 !== 0) days.push(null);
+    for (let i = 0; i < startOffset; i++) days.push({ day: null, type: 'prev' });
+    for (let d = 1; d <= lastDay.getDate(); d++) days.push({ day: d, type: 'current' });
+    // Add next month's days to fill up to 42 days (6 rows)
+    let nextDay = 1;
+    while (days.length < 42) {
+      days.push({ day: nextDay++, type: 'next' });
+    }
     return days;
   }
 
-  selectDate(day: number | null, which: 'left' | 'right') {
-    if (!day) return;
+  public selectDate(dayObj: CalendarDay, which: 'left' | 'right') {
+    if (!dayObj.day || dayObj.type !== 'current') return;
     const year = which === 'left' ? this.displayYearLeft : this.displayYearRight;
     const month = which === 'left' ? this.displayMonthLeft : this.displayMonthRight;
-    const date = new Date(year, month, day);
+    const date = new Date(year, month, dayObj.day);
     if (!this.startDate || (this.startDate && this.endDate)) {
       this.startDate = date;
       this.endDate = null;
@@ -78,32 +86,32 @@ export class DateRangePickerModalComponent {
     }
   }
 
-  isSelected(day: number | null, which: 'left' | 'right') {
-    if (!day) return false;
+  public isSelected(dayObj: CalendarDay, which: 'left' | 'right') {
+    if (!dayObj.day || dayObj.type !== 'current') return false;
     const year = which === 'left' ? this.displayYearLeft : this.displayYearRight;
     const month = which === 'left' ? this.displayMonthLeft : this.displayMonthRight;
-    const date = new Date(year, month, day);
+    const date = new Date(year, month, dayObj.day);
     return (
       (this.startDate && this.datesEqual(date, this.startDate)) ||
       (this.endDate && this.datesEqual(date, this.endDate))
     );
   }
 
-  isInRange(day: number | null, which: 'left' | 'right') {
-    if (!day || !this.startDate || !this.endDate) return false;
+  public isInRange(dayObj: CalendarDay, which: 'left' | 'right') {
+    if (!dayObj.day || dayObj.type !== 'current' || !this.startDate || !this.endDate) return false;
     const year = which === 'left' ? this.displayYearLeft : this.displayYearRight;
     const month = which === 'left' ? this.displayMonthLeft : this.displayMonthRight;
-    const date = new Date(year, month, day);
+    const date = new Date(year, month, dayObj.day);
     return date > this.startDate && date < this.endDate;
   }
 
-  isToday(day: number | null, which: 'left' | 'right') {
-    if (!day) return false;
+  public isToday(dayObj: CalendarDay, which: 'left' | 'right') {
+    if (!dayObj.day || dayObj.type !== 'current') return false;
     const year = which === 'left' ? this.displayYearLeft : this.displayYearRight;
     const month = which === 'left' ? this.displayMonthLeft : this.displayMonthRight;
     const today = new Date();
     return (
-      day === today.getDate() &&
+      dayObj.day === today.getDate() &&
       month === today.getMonth() &&
       year === today.getFullYear()
     );
@@ -120,7 +128,7 @@ export class DateRangePickerModalComponent {
     return `${y}-${m}-${d}`;
   }
 
-  prevMonth() {
+  public prevMonth() {
     if (this.displayMonthLeft === 0) {
       this.displayMonthLeft = 11;
       this.displayYearLeft--;
@@ -136,7 +144,7 @@ export class DateRangePickerModalComponent {
     }
   }
 
-  nextMonth() {
+  public nextMonth() {
     if (this.displayMonthRight === 11) {
       this.displayMonthRight = 0;
       this.displayYearRight++;
@@ -152,18 +160,18 @@ export class DateRangePickerModalComponent {
     }
   }
 
-  getMonthName(month: number) {
+  public getMonthName(month: number) {
     return [
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
     ][month];
   }
 
-  onCancel() {
+  public onCancel() {
     this.cancel.emit();
   }
 
-  onApply() {
+  public onApply() {
     this.apply.emit({ start: this.startDate, end: this.endDate });
   }
 } 

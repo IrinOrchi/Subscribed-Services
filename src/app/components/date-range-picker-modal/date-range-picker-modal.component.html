@@ -3,29 +3,34 @@
     <div class="flex gap-12 border-b pb-4 mb-4">
       <div>
         <div class="flex items-center justify-between mb-2">
-          <button class="text-lg font-bold text-gray-400" (click)="prevMonth()">&lt;</button>
+          <button class="text-lg font-bold text-gray-400" (click)="prevMonth()">
+            <i class="icon-angle-left text-black" style="font-size: 12px; font-weight: 100;"></i>
+          </button>
           <div class="text-center font-medium text-gray-700">
             {{ getMonthName(displayMonthLeft) }} {{ displayYearLeft }}
           </div>
-          <button class="text-lg font-bold text-gray-400" disabled>&gt;</button>
+          <button class="text-lg font-bold text-gray-400" disabled>
+            <i class="icon-angle-right text-black" style="font-size: 12px; font-weight: 100;"></i>
+          </button>
         </div>
         <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 mb-1">
           <div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div><div>Su</div>
         </div>
         <div class="grid grid-cols-7 gap-1 text-center text-sm">
-          @for (day of leftMonthDays; track day) {
+          @for (dayObj of leftMonthDays; track $index) {
             <button
               class="w-7 h-7 rounded-full"
               [ngClass]="{
-                'bg-pink-600 text-white': isSelected(day, 'left'),
-                'bg-gray-200': isInRange(day, 'left'),
-                'text-pink-600': isToday(day, 'left'),
-                'text-gray-700': !isToday(day, 'left')
+                'bg-pink-600 text-white': isSelected(dayObj, 'left'),
+                'bg-gray-200': isInRange(dayObj, 'left'),
+                'text-pink-600': isToday(dayObj, 'left'),
+                'text-gray-700': !isToday(dayObj, 'left') && dayObj.type === 'current',
+                'text-gray-300': dayObj.type === 'next',
               }"
-              (click)="selectDate(day, 'left')"
-              [disabled]="!day"
+              (click)="selectDate(dayObj, 'left')"
+              [disabled]="dayObj.type !== 'current' || !dayObj.day"
               >
-              {{ day || '' }}
+              {{ dayObj.day || '' }}
             </button>
           }
         </div>
@@ -33,29 +38,34 @@
       <div class="w-px bg-gray-200 mx-2 self-stretch"></div>
       <div>
         <div class="flex items-center justify-between mb-2">
-          <button class="text-lg font-bold text-gray-400" disabled>&lt;</button>
+          <button class="text-lg font-bold text-gray-400" disabled>
+            <i class="icon-angle-left text-black" style="font-size: 12px; font-weight: 100;"></i>
+          </button>
           <div class="text-center font-medium text-gray-700">
             {{ getMonthName(displayMonthRight) }} {{ displayYearRight }}
           </div>
-          <button class="text-lg font-bold text-gray-400" (click)="nextMonth()">&gt;</button>
+          <button class="text-lg font-bold text-gray-400" (click)="nextMonth()">
+            <i class="icon-angle-right text-black" style="font-size: 12px; font-weight: 100;"></i>
+          </button>
         </div>
         <div class="grid grid-cols-7 gap-1 text-center text-xs text-gray-400 mb-1">
           <div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div><div>Su</div>
         </div>
         <div class="grid grid-cols-7 gap-1 text-center text-sm">
-          @for (day of rightMonthDays; track day) {
+          @for (dayObj of rightMonthDays; track $index) {
             <button
               class="w-7 h-7 rounded-full"
               [ngClass]="{
-                'bg-pink-600 text-white': isSelected(day, 'right'),
-                'bg-gray-200': isInRange(day, 'right'),
-                'text-pink-600': isToday(day, 'right'),
-                'text-gray-700': !isToday(day, 'right')
+                'bg-pink-600 text-white': isSelected(dayObj, 'right'),
+                'bg-gray-200': isInRange(dayObj, 'right'),
+                'text-pink-600': isToday(dayObj, 'right'),
+                'text-gray-700': !isToday(dayObj, 'right') && dayObj.type === 'current',
+                'text-gray-300': dayObj.type === 'next',
               }"
-              (click)="selectDate(day, 'right')"
-              [disabled]="!day"
+              (click)="selectDate(dayObj, 'right')"
+              [disabled]="dayObj.type !== 'current' || !dayObj.day"
               >
-              {{ day || '' }}
+              {{ dayObj.day || '' }}
             </button>
           }
         </div>
