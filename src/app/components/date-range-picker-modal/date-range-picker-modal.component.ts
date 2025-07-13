@@ -26,6 +26,7 @@ export class DateRangePickerModalComponent {
   endDate: Date | null = null;
 
   ngOnInit() {
+    document.body.classList.add('overflow-hidden');
     const now = new Date();
     this.displayYearLeft = now.getFullYear();
     this.displayMonthLeft = now.getMonth();
@@ -168,10 +169,12 @@ export class DateRangePickerModalComponent {
   }
 
   public onCancel() {
+    document.body.classList.remove('overflow-hidden');
     this.cancel.emit();
   }
 
   public onApply() {
+    document.body.classList.remove('overflow-hidden');
     this.apply.emit({ start: this.startDate, end: this.endDate });
   }
 } 
