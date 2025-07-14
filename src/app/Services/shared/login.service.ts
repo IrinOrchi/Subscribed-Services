@@ -224,7 +224,7 @@ export class LoginService {
       }),
       catchError((error) => {
         console.error('Error in getSupportingInfo:', error);
-        return of(null); // or handle the error as needed
+        return of(null); 
       })
     );
   }
@@ -240,7 +240,7 @@ export class LoginService {
       }),
       catchError((error) => {
         console.error('Error in getCompanyId:', error);
-        return of(null); // or handle the error as needed
+        return of(null); 
       })
     );
   }
@@ -256,7 +256,7 @@ export class LoginService {
       }),
       catchError((error) => {
         console.error('Error in getUserId:', error);
-        return of(null); // or handle the error as needed
+        return of(null); 
       })
     );
   }
@@ -272,7 +272,7 @@ export class LoginService {
       }),
       catchError((error) => {
         console.error('Error in getCompanyCookies:', error);
-        return of(null); // or handle the error as needed
+        return of(null); 
       })
     );
   }
@@ -298,12 +298,12 @@ export class LoginService {
     return this.getUserLoginData().pipe(
       map((data) => {
         if (data && data.exp) {
-          const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+          const currentTime = Math.floor(Date.now() / 1000);
           return data.exp > currentTime;
         }
-        return false; // Consider token without expiration date as non-expiring
+        return false; 
       }),
-      catchError(() => of(false)) // In case of any error, assume token is expired
+      catchError(() => of(false)) 
     );
   }
 
@@ -357,7 +357,6 @@ export class LoginService {
     return this.httpClient.post(this.CHECK_IS_PASS_UPDATED, this.serializeFormData(data), options);
   }
 
-  // Helper function to serialize form data
   private serializeFormData(data: any): string {
     const formData = new URLSearchParams();
     for (const key in data) {
@@ -372,7 +371,6 @@ export class LoginService {
   setLegacyApiDataToLocalStorage(data: SupportingInfo) {
     this.gatewayDataSharingService.setSupportingInfoToSharedService(data);
     if (data) {
-      // debugger;
       if (data.EmployeeMaxSize && data.EmployeeMaxSize > 0) {
         // console.log('EmployeeMaxSize :', data.EmployeeMaxSize);
 
