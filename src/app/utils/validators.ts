@@ -78,13 +78,11 @@ export function companyAddressValidator(): ValidatorFn {
       return null;
     }
 
-    // Check if input contains only dots, numbers, or spaces
     const onlyDotsNumbersSpaces = /^[.\d\s]+$/;
     if (onlyDotsNumbersSpaces.test(value)) {
       return { invalidPattern: true };
     }
 
-    // Check if input is less than 10 characters
     if (value.length < 10) {
       return { minlength: true };
     }
