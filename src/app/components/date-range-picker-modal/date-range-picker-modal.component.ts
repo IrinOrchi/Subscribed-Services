@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 // Exported type for template usage
 export type CalendarDay = { day: number | null, type: 'current' | 'next' | 'prev' };
@@ -7,7 +8,7 @@ export type CalendarDay = { day: number | null, type: 'current' | 'next' | 'prev
 @Component({
   selector: 'app-date-range-picker-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './date-range-picker-modal.component.html',
   // styleUrls: ['./date-range-picker-modal.component.scss']
 })
@@ -25,6 +26,12 @@ export class DateRangePickerModalComponent {
   startDate: Date | null = null;
   endDate: Date | null = null;
 
+  months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  years: number[] = [];
+
   ngOnInit() {
     document.body.classList.add('overflow-hidden');
     const now = new Date();
@@ -39,6 +46,10 @@ export class DateRangePickerModalComponent {
     }
     this.startDate = this.initialStartDate;
     this.endDate = this.initialEndDate;
+    this.years = [];
+    for (let y = 1900; y <= 2100; y++) {
+      this.years.push(y);
+    }
   }
 
   public get leftMonthDays() {
@@ -55,7 +66,6 @@ export class DateRangePickerModalComponent {
     return this.endDate ? this.formatDate(this.endDate) : '';
   }
 
-  // Updated function to always return 6 rows (42 days)
   generateCalendarDays(year: number, month: number): CalendarDay[] {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -63,7 +73,6 @@ export class DateRangePickerModalComponent {
     let startOffset = (firstDay.getDay() + 6) % 7;
     for (let i = 0; i < startOffset; i++) days.push({ day: null, type: 'prev' });
     for (let d = 1; d <= lastDay.getDate(); d++) days.push({ day: d, type: 'current' });
-    // Add next month's days to fill up to 42 days (6 rows)
     let nextDay = 1;
     while (days.length < 42) {
       days.push({ day: nextDay++, type: 'next' });
@@ -170,6 +179,22 @@ export class DateRangePickerModalComponent {
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
     ][month];
+  }
+
+  onMonthChange(which: 'left' | 'right', value: number) {
+    if (which === 'left') {
+      this.displayMonthLeft = +value;
+    } else {
+      this.displayMonthRight = +value;
+    }
+  }
+
+  onYearChange(which: 'left' | 'right', value: number) {
+    if (which === 'left') {
+      this.displayYearLeft = +value;
+    } else {
+      this.displayYearRight = +value;
+    }
   }
 
   public onCancel() {
