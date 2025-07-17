@@ -129,35 +129,39 @@ export class DateRangePickerModalComponent {
     return `${y}-${m}-${d}`;
   }
 
-  public prevMonth() {
+  public prevMonthLeft() {
     if (this.displayMonthLeft === 0) {
       this.displayMonthLeft = 11;
       this.displayYearLeft--;
     } else {
       this.displayMonthLeft--;
     }
+  }
+
+  public nextMonthLeft() {
     if (this.displayMonthLeft === 11) {
-      this.displayMonthRight = 0;
-      this.displayYearRight = this.displayYearLeft + 1;
+      this.displayMonthLeft = 0;
+      this.displayYearLeft++;
     } else {
-      this.displayMonthRight = this.displayMonthLeft + 1;
-      this.displayYearRight = this.displayYearLeft;
+      this.displayMonthLeft++;
     }
   }
 
-  public nextMonth() {
+  public prevMonthRight() {
+    if (this.displayMonthRight === 0) {
+      this.displayMonthRight = 11;
+      this.displayYearRight--;
+    } else {
+      this.displayMonthRight--;
+    }
+  }
+
+  public nextMonthRight() {
     if (this.displayMonthRight === 11) {
       this.displayMonthRight = 0;
       this.displayYearRight++;
     } else {
       this.displayMonthRight++;
-    }
-    if (this.displayMonthRight === 0) {
-      this.displayMonthLeft = 11;
-      this.displayYearLeft = this.displayYearRight - 1;
-    } else {
-      this.displayMonthLeft = this.displayMonthRight - 1;
-      this.displayYearLeft = this.displayYearRight;
     }
   }
 
