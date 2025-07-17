@@ -8,9 +8,9 @@
           </button>
           <div class="flex gap-1 items-center">
             <div class="relative">
-              <select #monthLeftSelect [value]="displayMonthLeft" (change)="onMonthChange('left', +monthLeftSelect.value)" class="border border-black rounded px-2 py-1 text-sm focus:outline-none appearance-none bg-white pr-6">
+              <select [(ngModel)]="displayMonthLeft" class="border border-black rounded px-2 py-1 text-sm focus:outline-none appearance-none bg-white pr-6">
                 @for (m of months; track $index) {
-                  <option [ngValue]="$index" [selected]="$index === displayMonthLeft">{{ m }}</option>
+                  <option [value]="$index">{{ m }}</option>
                 }
               </select>
               <span class="pointer-events-none absolute right-2 top-1/2 transform -translate-y-1/2 text-black">
@@ -20,9 +20,9 @@
               </span>
             </div>
             <div class="relative">
-              <select #yearLeftSelect [value]="displayYearLeft" (change)="onYearChange('left', +yearLeftSelect.value)" class="border border-black rounded px-2 py-1 text-sm focus:outline-none appearance-none bg-white pr-6">
+              <select [(ngModel)]="displayYearLeft" class="border border-black rounded px-2 py-1 text-sm focus:outline-none appearance-none bg-white pr-6">
                 @for (y of years; track $index) {
-                  <option [ngValue]="y" [selected]="y === displayYearLeft">{{ y }}</option>
+                  <option [value]="y">{{ y }}</option>
                 }
               </select>
               <span class="pointer-events-none absolute right-2 top-1/2 transform -translate-y-1/2 text-black">
@@ -66,9 +66,9 @@
           </button>
           <div class="flex gap-1 items-center">
             <div class="relative">
-              <select #monthRightSelect [value]="displayMonthRight" (change)="onMonthChange('right', +monthRightSelect.value)" class="border border-black rounded px-2 py-1 text-sm focus:outline-none appearance-none bg-white pr-6">
+              <select [(ngModel)]="displayMonthRight" class="border border-black rounded px-2 py-1 text-sm focus:outline-none appearance-none bg-white pr-6">
                 @for (m of months; track $index) {
-                  <option [ngValue]="$index" [selected]="$index === displayMonthRight">{{ m }}</option>
+                  <option [value]="$index">{{ m }}</option>
                 }
               </select>
               <span class="pointer-events-none absolute right-2 top-1/2 transform -translate-y-1/2 text-black">
@@ -78,9 +78,9 @@
               </span>
             </div>
             <div class="relative">
-              <select #yearRightSelect [value]="displayYearRight" (change)="onYearChange('right', +yearRightSelect.value)" class="border border-black rounded px-2 py-1 text-sm focus:outline-none appearance-none bg-white pr-6">
+              <select [(ngModel)]="displayYearRight" class="border border-black rounded px-2 py-1 text-sm focus:outline-none appearance-none bg-white pr-6">
                 @for (y of years; track $index) {
-                  <option [ngValue]="y" [selected]="y === displayYearRight">{{ y }}</option>
+                  <option [value]="y">{{ y }}</option>
                 }
               </select>
               <span class="pointer-events-none absolute right-2 top-1/2 transform -translate-y-1/2 text-black">
