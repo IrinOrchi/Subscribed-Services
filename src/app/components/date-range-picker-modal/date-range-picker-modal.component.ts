@@ -26,6 +26,9 @@ export class DateRangePickerModalComponent {
   startDate: Date | null = null;
   endDate: Date | null = null;
 
+  startDateInput: string = '';
+  endDateInput: string = '';
+
   months = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
@@ -46,6 +49,8 @@ export class DateRangePickerModalComponent {
     }
     this.startDate = this.initialStartDate;
     this.endDate = this.initialEndDate;
+    this.startDateInput = this.startDate ? this.formatDate(this.startDate) : '';
+    this.endDateInput = this.endDate ? this.formatDate(this.endDate) : '';
     this.years = [];
     for (let y = 1900; y <= 2100; y++) {
       this.years.push(y);
@@ -59,20 +64,24 @@ export class DateRangePickerModalComponent {
     return this.generateCalendarDays(this.displayYearRight, this.displayMonthRight);
   }
 
-  public get startDateString() {
-    return this.startDate ? this.formatDate(this.startDate) : '';
-  }
-  public set startDateString(value: string) {
-    const parsed = this.parseDate(value);
-    this.startDate = parsed;
-  }
+  // Remove startDateString/endDateString getter/setter
 
-  public get endDateString() {
-    return this.endDate ? this.formatDate(this.endDate) : '';
+  // When user blurs input, parse and update date
+  onStartDateInputBlur() {
+    this.startDate = this.parseDate(this.startDateInput);
+    this.startDateInput = this.startDate ? this.formatDate(this.startDate) : this.startDateInput;
+    if (this.startDate) {
+      this.displayYearLeft = this.startDate.getFullYear();
+      this.displayMonthLeft = this.startDate.getMonth();
+    }
   }
-  public set endDateString(value: string) {
-    const parsed = this.parseDate(value);
-    this.endDate = parsed;
+  onEndDateInputBlur() {
+    this.endDate = this.parseDate(this.endDateInput);
+    this.endDateInput = this.endDate ? this.formatDate(this.endDate) : this.endDateInput;
+    if (this.endDate) {
+      this.displayYearRight = this.endDate.getFullYear();
+      this.displayMonthRight = this.endDate.getMonth();
+    }
   }
 
   private parseDate(value: string): Date | null {
@@ -101,6 +110,7 @@ export class DateRangePickerModalComponent {
     return days;
   }
 
+  // When calendar changes, update both date and input string
   public selectDate(dayObj: CalendarDay, which: 'left' | 'right') {
     if (!dayObj.day || dayObj.type !== 'current') return;
     const year = which === 'left' ? this.displayYearLeft : this.displayYearRight;
@@ -108,12 +118,17 @@ export class DateRangePickerModalComponent {
     const date = new Date(year, month, dayObj.day);
     if (!this.startDate || (this.startDate && this.endDate)) {
       this.startDate = date;
+      this.startDateInput = this.formatDate(date);
       this.endDate = null;
+      this.endDateInput = '';
     } else if (date < this.startDate) {
       this.startDate = date;
+      this.startDateInput = this.formatDate(date);
       this.endDate = null;
+      this.endDateInput = '';
     } else {
       this.endDate = date;
+      this.endDateInput = this.formatDate(date);
     }
   }
 
@@ -223,8 +238,10 @@ export class DateRangePickerModalComponent {
     this.cancel.emit();
   }
 
+  // On Apply, parse and update dates from input
   public onApply() {
-    document.body.classList.remove('overflow-hidden');
+    this.startDate = this.parseDate(this.startDateInput);
+    this.endDate = this.parseDate(this.endDateInput);
     this.apply.emit({ start: this.startDate, end: this.endDate });
   }
 } 

@@ -121,13 +121,15 @@
       <input
         class="border rounded px-2 py-1 text-sm w-24"
         placeholder="Start date"
-        [(ngModel)]="startDateString"
+        [(ngModel)]="startDateInput"
+        (blur)="onStartDateInputBlur()"
       />
       <span class="text-gray-400">–</span>
       <input
         class="border rounded px-2 py-1 text-sm w-24"
         placeholder="End date"
-        [(ngModel)]="endDateString"
+        [(ngModel)]="endDateInput"
+        (blur)="onEndDateInputBlur()"
       />
       <button class="ml-auto px-3 py-1 rounded border text-gray-600 min-w-[70px]" (click)="onCancel()">Cancel</button>
       <button class="px-3 py-1 rounded bg-pink-600 text-white min-w-[70px]" (click)="onApply()">Apply</button>
