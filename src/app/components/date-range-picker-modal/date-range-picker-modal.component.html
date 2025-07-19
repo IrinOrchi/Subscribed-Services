@@ -118,9 +118,17 @@
       </div>
     </div>
     <div class="flex items-center gap-2 mt-4 flex-wrap">
-      <input class="border rounded px-2 py-1 text-sm w-24" placeholder="Start date" [value]="startDateString" readonly />
+      <input
+        class="border rounded px-2 py-1 text-sm w-24"
+        placeholder="Start date"
+        [(ngModel)]="startDateString"
+      />
       <span class="text-gray-400">–</span>
-      <input class="border rounded px-2 py-1 text-sm w-24" placeholder="End date" [value]="endDateString" readonly />
+      <input
+        class="border rounded px-2 py-1 text-sm w-24"
+        placeholder="End date"
+        [(ngModel)]="endDateString"
+      />
       <button class="ml-auto px-3 py-1 rounded border text-gray-600 min-w-[70px]" (click)="onCancel()">Cancel</button>
       <button class="px-3 py-1 rounded bg-pink-600 text-white min-w-[70px]" (click)="onApply()">Apply</button>
     </div>

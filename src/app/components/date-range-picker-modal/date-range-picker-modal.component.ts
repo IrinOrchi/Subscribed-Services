@@ -62,8 +62,29 @@ export class DateRangePickerModalComponent {
   public get startDateString() {
     return this.startDate ? this.formatDate(this.startDate) : '';
   }
+  public set startDateString(value: string) {
+    const parsed = this.parseDate(value);
+    this.startDate = parsed;
+  }
+
   public get endDateString() {
     return this.endDate ? this.formatDate(this.endDate) : '';
+  }
+  public set endDateString(value: string) {
+    const parsed = this.parseDate(value);
+    this.endDate = parsed;
+  }
+
+  private parseDate(value: string): Date | null {
+    if (!value) return null;
+    const parts = value.split('-');
+    if (parts.length === 3) {
+      const [y, m, d] = parts.map(Number);
+      if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+        return new Date(y, m - 1, d);
+      }
+    }
+    return null;
   }
 
   generateCalendarDays(year: number, month: number): CalendarDay[] {
