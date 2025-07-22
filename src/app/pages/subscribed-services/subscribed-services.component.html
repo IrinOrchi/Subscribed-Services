@@ -148,8 +148,10 @@ class="text-xs rounded-full px-2 py-0.5">{{ getTabCount('cv') }}</span>
             {{ item.duration === 1 ? '1 Month' : (item.duration > 1 ? item.duration + ' Months' : 'N/A') }}
           </td>
           <td style="padding: var(--spacing-3xl, 24px) var(--spacing-xl, 16px);">
-            <span class="icon icon-basic-file" style="margin-right: 4px; color: #0E6596;"></span>
-            <a href="#" style="color: #0E6596;" class="hover:underline" (click)="openDetailsModal(item); $event.preventDefault()">Details</a>
+            <div style="display: flex; align-items: center;">
+              <img src="assets/images/table preview.svg" alt="Table Preview" style="width: 20px; height: 20px; margin-right: 4px;">
+              <a href="#" style="color: #0E6596;" class="hover:underline" (click)="openDetailsModal(item); $event.preventDefault()">Details</a>
+            </div>
           </td>
         </tr>
       }
