@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-// Exported type for template usage
 export type CalendarDay = { day: number | null, type: 'current' | 'next' | 'prev' };
 
 @Component({
